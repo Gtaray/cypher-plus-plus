@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root version="3.3" release="1.0">
+	<template name="stringu_damagetype_autocomplete">
+		<stringu>
+			<script file="common/scripts/string_damagetype_autocomplete.lua" />
+		</stringu>
+	</template >
+</root>

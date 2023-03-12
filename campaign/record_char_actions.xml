@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+	<windowclass name="charsheet_actions" merge="join">
+		<sheetdata>
+			<label name="armor_label" merge="delete" />
+			<basicnumber name="armor" merge="delete" />
+			<label name="armorspeedcost_label" merge="delete" />
+			<basicnumber name="armorspeedcost" merge="delete" />
+
+			<basicnumber name="armor" insertbefore="attackframe">
+				<anchored to="armorframe" width="30" height="30">
+					<bottom offset="-10" />
+					<left offset="10" />
+				</anchored>
+			</basicnumber>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="armor" />
+				<static textres="char_label_armor" />
+			</label_fieldtop>
+
+			<basicnumber name="armorspeedcost" insertbefore="attackframe">
+				<anchored to="armor" width="20" height="20">
+					<left anchor="right" offset="10" />
+					<bottom />
+				</anchored>
+				<tooltip textres="char_tooltip_armorspeedcost" />
+			</basicnumber>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="armorspeedcost" />
+				<static textres="char_label_armorspeedcost" />
+			</label_fieldtop>
+
+			<number_charabilitypool name="mightpool" source="abilities.might.current" insertbefore="attackframe">
+				<anchored to="armorspeedcost" width="45" height="30">
+					<bottom />
+					<left anchor="right" offset="15" />
+				</anchored>
+				<stat>might</stat>
+			</number_charabilitypool>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="mightpool" />
+				<static textres="char_label_might" />
+			</label_fieldtop>
+			<button_defenseroll name="mightdefroll" insertbefore="attackframe">
+				<anchored to="mightpool">
+					<bottom />
+					<left anchor="right" offset="5" />
+				</anchored>
+				<stat>might</stat>
+				<tooltip textres="char_tooltip_mightdef" />
+			</button_defenseroll>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="mightdefroll" />
+				<static textres="char_label_statdef" />
+			</label_fieldtop>
+
+			<number_charabilitypool name="speedpool" source="abilities.speed.current" insertbefore="attackframe">
+				<anchored to="mightdefroll" width="45" height="30">
+					<bottom />
+					<left anchor="right" offset="15" />
+				</anchored>
+				<stat>speed</stat>
+			</number_charabilitypool>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="speedpool" />
+				<static textres="char_label_speed" />
+			</label_fieldtop>
+			<button_defenseroll name="speeddefroll" insertbefore="attackframe">
+				<anchored to="speedpool">
+					<bottom />
+					<left anchor="right" offset="5" />
+				</anchored>
+				<stat>speed</stat>
+				<tooltip textres="char_tooltip_speeddef" />
+			</button_defenseroll>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="speeddefroll" />
+				<static textres="char_label_statdef" />
+			</label_fieldtop>
+
+			<number_charabilitypool name="intellectpool" source="abilities.intellect.current" insertbefore="attackframe">
+				<anchored to="speeddefroll" width="45" height="30">
+					<bottom />
+					<left anchor="right" offset="15" />
+				</anchored>
+				<stat>intellect</stat>
+			</number_charabilitypool>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="intellectpool" />
+				<static textres="char_label_intellect" />
+			</label_fieldtop>
+			<button_defenseroll name="intellectdefroll" insertbefore="attackframe">
+				<anchored to="intellectpool">
+					<bottom />
+					<left anchor="right" offset="5" />
+				</anchored>
+				<stat>intellect</stat>
+				<tooltip textres="char_tooltip_intellectdef" />
+			</button_defenseroll>
+			<label_fieldtop insertbefore="attackframe">
+				<anchored to="intellectdefroll" />
+				<static textres="char_label_statdef" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_attack" merge="join">
+		<script file="campaign/scripts/char_attack.lua" />
+		<sheetdata>
+			<label name="label_energytype">
+				<anchored to="damagetype" position="righthigh" offset="10,0" />
+				<static textres="char_label_energytype" />
+			</label>
+			<stringu_damagetype_autocomplete name="energytype">
+				<anchored to="label_energytype" height="20">
+					<top />
+					<left anchor="right" offset="10" />
+					<right parent="cost" anchor="right" />
+				</anchored>
+			</stringu_damagetype_autocomplete>
+
+			<buttonfield name="range" merge="delete" />
+
+			<cycler_range name="range" insertbefore="label_ammo">
+				<anchored to="label_range" position="righthigh" offset="5,0" width="60" height="20" />
+			</cycler_range>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_ability" merge="join">
+		<script file="campaign/scripts/power_item.lua" />
+		<sheetdata>
+			<button_roll name="statroll" merge="delete" />
+			<stringcontrol name="statcostview" merge="delete" />
+
+			<button_poweritem_toggle_actions name="activatedetail" insertbefore="name">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+				</anchored>
+			</button_poweritem_toggle_actions>
+
+			<list_poweraction_mini name="actionsmini" insertbefore="name">
+				<script>
+					function onInit()
+						setVisible(true);
+					end
+				</script>
+			</list_poweraction_mini>
+
+			<list_poweraction name="actions">
+				<invisible />
+			</list_poweraction>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ability_main">
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				ftdesc.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<string_column_full name="description">
+				<readonly />
+				<invisible />
+			</string_column_full>
+
+			<basicft name="ftdesc">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<script>
+					function onInit()
+						local oldDesc = window.description.getValue();
+						if oldDesc == "" then
+							return;
+						end
+						
+						local aDescriptionSplit,_ = StringManager.split(oldDesc, "\n", true);
+						
+						local sFormattedString = "";
+						for _,sDescFragment in pairs(aDescriptionSplit) do
+							sFormattedString = sFormattedString .. "&lt;p&gt;" .. sDescFragment .. "&lt;/p&gt;";
+						end
+						
+						setValue(sFormattedString);
+						window.description.setValue("");
+					end
+				</script>
+				<tabtarget prev="modifier" />
+			</basicft>
+		</sheetdata>
+	</windowclass>
+
+	<template name="list_poweraction">
+		<windowlist>
+			<anchored>
+				<top parent="name" anchor="bottom" relation="relative" offset="5" />
+				<left offset="20" />
+				<right offset="-20" />
+			</anchored>
+			<datasource>.actions</datasource>
+			<class>power_action</class>
+			<noscroll />
+			<sortby><field>order</field></sortby>
+			<script>
+				function reset()
+					DB.deleteChildren(getDatabaseNode());
+				end
+			</script>
+		</windowlist>
+	</template>
+</root>

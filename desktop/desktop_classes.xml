@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<panel name="difficultyadjustpanel">
+		<class>difficultyadjust</class>
+		<bounds>80,-95,210,52</bounds>
+		<dynamic />
+		<locked />
+	</panel>
+
+	<panel name="dicepanel" merge="join">
+		<anchored>
+			<left offset="270" />
+		</anchored>
+	</panel>
+
+	<windowclass name="difficultyadjust" merge="join">
+		<sizelimits>
+			<minimum width="210" height="52" />
+		</sizelimits>
+		<sheetdata>
+			<button_modifierkey name="EASE">
+				<bounds>150,8,50,14</bounds>
+			</button_modifierkey>
+			<button_modifierkey name="HINDER">
+				<bounds>150,30,50,14</bounds>
+			</button_modifierkey>
+		</sheetdata>
+	</windowclass>
+</root>

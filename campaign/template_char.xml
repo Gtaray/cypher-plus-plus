@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+	<template name="number_charabilitypool">
+		<number_dropadd>
+			<font>char_pool</font>
+			<default>10</default>
+			<min>0</min>
+			<droptypes>
+				<type>number</type>
+				<type>recovery</type>
+			</droptypes>
+			<rollable />
+			<script file="campaign/scripts/number_char_ability_pool.lua" />
+		</number_dropadd>
+	</template>
+
+	<template name="button_defenseroll">
+		<button_roll>
+			<anchored width="25" height="25" />
+			<script file="campaign/scripts/button_defenseroll.lua" />
+		</button_roll>
+	</template>
+</root>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="cycler_column">
+		<button_stringcycler>
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+			</anchored>
+		</button_stringcycler>
+	</template>
+
+	<template name="column_stat">
+		<button_stat>
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+			</anchored>
+		</button_stat>
+	</template>
+
+	<template name="column_skill">
+		<button_skill>
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+			</anchored>
+		</button_skill>
+	</template>
+
+	<template name="cycler_skill">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>label_training_trained|label_training_specialized|label_training_inability</labelsres>
+				<values>trained|specialized|inability</values>
+				<defaultlabel>-</defaultlabel>
+			</parameters>
+		</button_stringcycler>
+	</template>
+
+	<template name="cycler_range">
+		<button_stringcycler>
+			<parameters>
+				<defaultlabelres>dash</defaultlabelres>
+				<labelsres>char_label_rangeimmediate|char_label_rangeshort|char_label_rangelong|char_label_range200</labelsres>
+				<values>Immediate|Short|Far|Very Far</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+</root>

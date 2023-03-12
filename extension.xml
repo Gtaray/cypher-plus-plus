@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root version="3.3" release="1.0">
+	<announcement text="Loaded Cypher++" font="emotefont" />
+	<properties>
+		<name>Cypher++</name>
+		<version>1.0.0</version>
+		<author>Saagael</author>
+		<description>Collection of enhancements for the Cypher ruleset</description>
+		<loadorder>90</loadorder>
+	</properties>
+	<base>
+		<includefile source="campaign/record_char_main.xml" />
+		<includefile source="campaign/record_char_actions.xml" />
+		<includefile source="campaign/record_power.xml" />
+		<includefile source="campaign/record_npc.xml" />
+		<includefile source="campaign/template_char.xml" />
+		<includefile source="common/damagetype_templates.xml" />
+		<includefile source="common/common_templates.xml" />
+		<includefile source="utility/damagetypes.xml" />
+		<includefile source="utility/prompt_defense.xml" />
+		<includefile source="desktop/desktop_classes.xml" />
+
+		<script name="DamageTypeManager" file="scripts/manager_damage_types.lua" />
+		<script name="PowerManager" file="scripts/manager_power.lua" />
+		<script name="ActorManagerCPP" file="scripts/manager_actor_cpp.lua" />
+		<script name="EffectManagerCPP" file="scripts/manager_effect_cpp.lua" />
+		<script name="RollManagerCPP" file="scripts/manager_roll_cpp.lua" />
+		<script name="PromptManager" file="scripts/manager_prompt.lua" />
+
+
+		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
+		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />
+		<script name="ActionSkillCPP" file="scripts/manager_action_skill_cpp.lua" />
+		<script name="ActionAttackCPP" file="scripts/manager_action_attack_cpp.lua" />
+		<script name="ActionDefenseCPP" file="scripts/manager_action_defense_cpp.lua" />
+		<script name="ActionDefenseVsCPP" file="scripts/manager_action_defensevs_cpp.lua" />
+		<script name="ActionDamageCPP" file="scripts/manager_action_damage_cpp.lua" />
+		<script name="ActionHealCPP" file="scripts/manager_action_heal_cpp.lua" />
+
+		<!-- STRINGS -->
+		<includefile source="strings/cpp_strings.xml" />
+
+		<!-- Graphics -->
+		<icon name="radial_power_action_stat" file="graphics/radial/icon_dice_custom.png" />
+	</base>
+</root>

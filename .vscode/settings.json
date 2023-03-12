@@ -1,0 +1,19 @@
+{
+    "Lua.diagnostics.globals": [
+		"super",
+		"onChar",
+		"getCursorPosition",
+		"getValue",
+		"StringManager",
+		"DamageTypeManager",
+		"setValue",
+		"setSelectionPosition",
+		"Session",
+		"DB",
+		"OptionsManager"
+	],
+    "Lua.diagnostics.disable": [
+		"lowercase-global",
+		"undefined-global"
+	]
+}

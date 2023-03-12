@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<windowclass name="npc_main" merge="join">
+		<script file="campaign/scripts/npc_main.lua" />
+		<sheetdata>
+			<header_column name="header_resistances">
+				<static textres="npc_header_resistances"/>
+			</header_column>
+			<button_iedit name="resistances_iedit">
+				<anchored to="header_resistances" position="righthigh" offset="-20,0" />
+				<target>resistances</target>
+			</button_iedit>
+			<button_iadd name="resistances_iadd">
+				<anchored to="resistances_iedit" position="lefthigh" offset="5,0" />
+				<target>resistances</target>
+			</button_iadd>
+			<list_npcactions name="resistances">
+				<datasource>.resistances</datasource>
+				<class>npc_resistance</class>
+			</list_npcactions>
+
+			<header_column name="header_actions">
+				<static textres="npc_header_actions"/>
+			</header_column>
+			<button_iedit name="actions_iedit">
+				<anchored to="header_actions" position="righthigh" offset="-20,0" />
+				<target>actions</target>
+			</button_iedit>
+			<button_iadd name="actions_iadd">
+				<anchored to="actions_iedit" position="lefthigh" offset="5,0" />
+				<target>actions</target>
+			</button_iadd>
+			<list_npcactions name="actions">
+				<datasource>.actions</datasource>
+				<class>npc_action</class>
+			</list_npcactions>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_action">
+		<script file="campaign/scripts/power_item.lua" />
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			<button_poweritem_toggle_actions name="activatedetail">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+				</anchored>
+			</button_poweritem_toggle_actions>
+
+			<list_poweraction_mini name="actionsmini">
+				<script>
+					function onInit()
+						setVisible(true);
+					end
+				</script>
+			</list_poweraction_mini>
+
+			<stringfield name="name">
+				<anchored position="insidetopleft" offset="5,2">
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<frame name="rowshade" offset="5,2,5,2" />
+				<font>sheetlabel</font>
+				<multilinespacing>20</multilinespacing>
+				<empty textres="npc_empty_powername" />
+			</stringfield>
+			
+			<basicstring name="desc">
+				<anchored to="name" position="belowleft" offset="0,5">
+					<right parent="" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<!-- <script file="campaign/scripts/npc_action.lua" /> -->
+			</basicstring>
+
+			<list_poweraction name="actions">
+				<anchored>
+					<top parent="desc" anchor="bottom" relation="relative" offset="5" />
+					<left offset="20" />
+					<right offset="-20" />
+				</anchored>
+				<invisible />
+			</list_poweraction>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_resistance">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored position="insidetopright" offset="0,2" height="0" width="0" />
+				<invisible />
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" offset="-5" />
+				</anchored>
+			</button_idelete>
+			<basicnumber name="amount">
+				<anchored to="rightanchor" relation="relative" height="20" width="30">
+					<top />
+					<right anchor="left" relation="relative" offset="-35" />
+				</anchored>
+				<min>0</min>
+			</basicnumber>
+			<button_stringcycler name="type">
+				<anchored to="rightanchor" width="80">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>  
+				<parameters>
+					<labelsres>npc_resistances_resistance|npc_resistances_immunity|npc_resistances_vulnerability</labelsres>
+					<values>resist|immune|vuln</values>
+					<defaultlabelres>dash</defaultlabelres>
+				</parameters>
+			</button_stringcycler>
+			<stringu_damagetype_autocomplete name="damagetype">
+				<anchored to="rightanchor" height="20">
+					<top />
+					<left parent="" offset="5" />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</stringu_damagetype_autocomplete>
+		</sheetdata>
+	</windowclass>
+
+	<template name="list_npcactions">
+		<list_column>
+			<child merge="delete" />
+			<sortby merge="delete" />
+		</list_column>
+	</template>
+</root>

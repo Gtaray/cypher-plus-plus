@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<string name="dash">-</string>
+	<string name="char_label_rangeimmediate">Immediate</string>
+	<string name="library_recordtype_label_damagetypes">Damage Types</string>
+
+	<string name="modifier_label_EASE">Ease</string>
+	<string name="modifier_label_HINDER">Hinder</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+
+	<string name="char_label_dmgtype">Stat</string>
+	<string name="char_label_energytype">Dmg Type</string>
+	<string name="char_label_armor">ARMOR</string>
+	<string name="char_label_armorspeedcost">Cost</string>
+	<string name="char_tooltip_armorspeedcost">Extra cost when spending Speed for effort while wearing armor.</string>
+
+	<string name="power_menu_action_add_stat">Add Stat</string>
+	<string name="power_label_roll">Roll</string>
+	<string name="power_header_stat">Stat Roll</string>
+	<string name="power_menu_action_add_attack">Add Attack</string>
+	<string name="power_label_name">Name</string>
+	<string name="power_header_attack">ATTACK</string>
+	<string name="power_label_atkrange">Range</string>
+	<string name="power_label_stat">Stat</string>
+	<string name="power_label_training">Training</string>
+	<string name="power_label_asset">Asset</string>
+	<string name="power_label_modifier">Mod</string>
+	<string name="power_header_cost">COST</string>
+	<string name="power_label_cost">Amount</string>
+	<string name="power_label_coststat">Stat</string>
+	<string name="power_tooltip_coststat">The stat pool the cost is deducted from</string>
+	<string name="power_label_level">Level</string>
+	<string name="power_tooltip_level">Level modifier for this attack.</string>
+
+	<string name="power_header_damage">DAMAGE</string>
+	<string name="power_label_damage">Dmg</string>
+	<string name="power_label_statdmg">Stat Pool</string>
+	<string name="power_tooltip_statdmg">Deal damage to this stat pool. Defaults to the same as the stat used to deal damage.</string>
+	<string name="power_label_damagetype">Damage Type</string>
+	<string name="power_tooltip_damage_stat">Which stat are you using to deal damage?</string>
+	<string name="power_label_onmiss">On Miss</string>
+	<string name="power_onmiss_half">Half Damage</string>
+	<string name="power_onmiss_flat">Flat Damage</string>
+	<string name="power_label_pierce">Armor Pierce</string>
+	<string name="power_tooltip_pierce">Does this damage bypass Armor?</string>
+	<string name="power_label_pierceamount">Amt</string>
+	<string name="power_tooltip_pierceamount">How much damage pierces armor? Leave blank to ignore all Armor.</string>
+	<string name="power_label_ambient">Ambient Dmg</string>
+	<string name="power_tooltip_ambient">Ambient damage ignores armor regardless of stat that's damaged</string>
+
+	<string name="power_header_heal">HEALING</string>
+	<string name="power_label_heal">Heal</string>
+	<string name="power_label_statheal">Stat Pool</string>
+	<string name="power_tooltip_statheal">Heal which stat pool?</string>
+
+	<string name="power_tooltip_stat">STAT</string>
+	<string name="power_tooltip_attack">ATK</string>
+	<string name="power_tooltip_damage">DMG</string>
+	<string name="power_tooltip_heal">HEAL</string>
+	<string name="power_tooltip_effect">EFFECT</string>
+	<string name="power_tooltip_duration">DURATION</string>
+
+	<string name="npc_header_resistances">Resistances &amp; Vulnerabilities</string>
+	<string name="npc_resistances_resistance">Resistance</string>
+	<string name="npc_resistances_immunity">Immunity</string>
+	<string name="npc_resistances_vulnerability">Vulnerability</string>
+	<string name="npc_header_actions">Actions</string>
+
+
+	<string name="label_training_inability">Inability</string>
+	<string name="label_training_trained">Trained</string>
+	<string name="label_training_specialized">Specialized</string>
+
+	<string name="error_defense_state_source_not_on_ct">Error: Could not set defense state. Source is not on the combat tracker</string>
+	<string name="error_defense_state_target_not_on_ct">Error: Could not set defense state. Target is not on the combat tracker</string>
+
+	<!-- Defense Prompt -->
+	<string name="defense_prompt_window_title">Defense Thyself</string>
+	<string name="defense_prompt_button_roll">Roll</string>
+	<string name="defense_prompt_description">%s is attacking you, defend yourself with %s!\nDifficulty: %s</string>
+</root>

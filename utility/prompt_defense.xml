@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="prompt_defense">
+		<frame>referencelist</frame>
+		<placement>
+			<size width="300" height="240" />
+		</placement>
+		<nodelete />
+		<script file="utility/scripts/defense_prompt.lua"/>
+		<sheetdata>
+			<windowtitlebar name="reftitle">
+				<resource>defense_prompt_window_title</resource>
+			</windowtitlebar>
+			<frame_char name="header">
+				<anchored height="100">
+					<top offset="40"/>
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</frame_char>
+
+			<stringcontrol name="description">
+				<anchored to="header">
+					<right anchor="right" offset="-15" />
+					<left anchor="left" offset="15"/>
+					<top anchor="top" offset="15" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>reference-title</font>
+				<center/>
+				<readonly />
+			</stringcontrol>
+
+			<subwindow name="effort">
+				<anchored width="210" height="52">
+					<top parent="description" anchor="bottom" offset="10" />
+					<left anchor="center" offset="-105" />
+				</anchored>
+				<class>difficultyadjust</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+
+			<button_text name="roll">
+				<script>
+					function onButtonPress()
+						window.roll();
+						window.closeWindow();
+					end
+				</script>
+				<anchored height="22" width="160">
+					<bottom parent="" anchor="bottom" offset="-25" />
+					<right parent="" anchor="right" offset="-25" />
+				</anchored>
+				<textres>defense_prompt_button_roll</textres>
+			</button_text>
+		</sheetdata>
+	</windowclass>
+</root>
