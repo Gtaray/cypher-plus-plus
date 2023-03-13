@@ -27,7 +27,6 @@
 		<script name="RollManagerCPP" file="scripts/manager_roll_cpp.lua" />
 		<script name="PromptManager" file="scripts/manager_prompt.lua" />
 
-
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />
 		<script name="ActionSkillCPP" file="scripts/manager_action_skill_cpp.lua" />
@@ -36,6 +35,7 @@
 		<script name="ActionDefenseVsCPP" file="scripts/manager_action_defensevs_cpp.lua" />
 		<script name="ActionDamageCPP" file="scripts/manager_action_damage_cpp.lua" />
 		<script name="ActionHealCPP" file="scripts/manager_action_heal_cpp.lua" />
+		<script name="ActionRecoveryCPP" file="scripts/manager_action_recovery_cpp.lua" />
 
 		<!-- STRINGS -->
 		<includefile source="strings/cpp_strings.xml" />

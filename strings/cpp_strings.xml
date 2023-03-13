@@ -59,6 +59,13 @@
 	<string name="power_label_costtype_ability">Use Ability's Cost</string>
 	<string name="power_label_costtype_fixed">Set Cost</string>
 
+	<string name="power_header_recharge">Recharge</string>
+	<string name="power_label_recharge_on">Recharge Period</string>
+	<string name="power_recharge_any">Any recovery action</string>
+	<string name="power_recharge_first">First recovery of the day</string>
+	<string name="power_recharge_last">Last recovery of the day</string>
+	<string name="power_recharge_manual">Manually</string>
+
 	<string name="power_tooltip_stat">STAT</string>
 	<string name="power_tooltip_attack">ATK</string>
 	<string name="power_tooltip_damage">DMG</string>

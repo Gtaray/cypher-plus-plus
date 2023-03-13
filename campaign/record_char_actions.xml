@@ -133,12 +133,18 @@
 		<sheetdata>
 			<button_roll name="statroll" merge="delete" />
 
+			<button_use_power name="used" insertbefore="statcostview" />
+
 			<stringcontrol name="statcostview" merge="join">
 				<script>
 					function onDoubleClick(x, y)
 						window.onCostDoubleClicked();
 					end
 				</script>
+				<anchored height="20">
+					<top offset="2" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<cursor>
 					<hover>hand</hover>
 				</cursor>
@@ -205,6 +211,23 @@
 				<anchored to="stat" />
 				<static textres="power_label_stat" />
 			</label_fieldtop>
+
+			<header_column name="header_recharge">
+				<static textres="power_header_recharge" />
+				<center />
+			</header_column>
+
+			<label_column name="period_label">
+				<static textres="power_label_recharge_on" />
+			</label_column>
+			<cycler_column name="period">
+				<anchored width="200" />
+				<parameters>
+					<labelsres>power_recharge_any|power_recharge_first|power_recharge_last|power_recharge_manual</labelsres>
+					<values>any|first|last|manual</values>
+					<defaultlabelres>dash</defaultlabelres>
+				</parameters>
+			</cycler_column>			
 
 			<header_column name="header_desc">
 				<static textres="power_header_description" />

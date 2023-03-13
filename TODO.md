@@ -52,9 +52,7 @@ PC ACTIONS
 * Player vs Player attacks prompt defense roll
 * Add prompt for upping the cost of an ability
 * ~~dd a way to pay a cost without a roll~~
-* Add checkbox for using powers, and then a way to regain them when certain rests are taken.
-	* "Next recovery action"
-	* "After 10 hour recovery action"
+* ~~Add checkbox for using powers, and then a way to regain them when certain rests are taken.~~
 * A way to specify that abilities should use 'weapon' damage, and then specify which weapon they're using
 	* Could also go with a weapon refactor and there's an 'equipped' weapon button
 

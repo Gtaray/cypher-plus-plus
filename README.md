@@ -61,6 +61,7 @@ Cypher++ is a grab-bag collection of features I wanted for my own game. It is de
 * The Action tab of the PC sheet has been modified to display stat pools and defense roll buttons. This was done to lessen the need to jump between tabs during encounters.
 * PC abilities have had their roll properties removed. Instead, PC Abilities can now have roll actions added to them through the radial menu. These operate much like other popular rulesets. Supported actions include: stat rolls, attacks, damage, healing, and effects.
 	* You can specify the cost of an ability in the ability itself, or in an individual action. This is useful if an ability has multiple options, but each option costs the same.
+* Added a 'used' checkbox next to PC abilities that can be enabled by setting an ability's recharge period. These abilities will recharge based on the period set (first recovery, last recovery, any recovery, or manually).
 * Weapon (and ability) damage has an added "Damage Type" field to support damage modification based on damage type
 
 ### NPC Sheet

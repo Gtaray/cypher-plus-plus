@@ -21,4 +21,13 @@
 			<script file="campaign/scripts/button_defenseroll.lua" />
 		</button_roll>
 	</template>
+
+	<template name="button_use_power">
+		<button_checkbox>
+			<anchored to="leftanchor" width="20" height="10">
+				<top offset="8" />
+				<left anchor="right" relation="relative" />
+			</anchored>
+		</button_checkbox>
+	</template>
 </root>
