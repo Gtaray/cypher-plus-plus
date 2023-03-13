@@ -2,6 +2,8 @@ local _fBuildPCRollInfo = nil;
 function onInit()
 	_fBuildPCRollInfo = RollManager.buildPCRollInfo;
 	RollManager.buildPCRollInfo = buildPCRollInfo;
+
+	RollManager.spendPointsForRoll = spendPointsForRoll;
 end
 
 function buildPCRollInfo(nodeActor, sDesc, sStat)
@@ -18,6 +20,50 @@ function buildPCRollInfo(nodeActor, sDesc, sStat)
 	end
 
 	return tInfo;
+end
+
+function spendPointsForRoll(nodeActor, tInfo)
+	if not nodeActor or not tInfo then
+		return false;
+	end
+	
+	if tInfo.nCost <= 0 then
+		return true;
+	end
+
+	if tInfo.sCostStat == "" then
+		local rActor = ActorManager.resolveActor(nodeActor);
+		local rMessage = ChatManager.createBaseMessage(rActor);
+		rMessage.text = rMessage.text .. " [STAT NOT SPECIFIED FOR POINT SPEND]";
+		Comm.deliverChatMessage(rMessage);
+		return false;
+	end
+
+	local nCurrentPool = DB.getValue(nodeActor, "abilities." .. tInfo.sCostStat .. ".current", 0);
+	if tInfo.nCost > nCurrentPool then
+		local rActor = ActorManager.resolveActor(nodeActor);
+		local rMessage = ChatManager.createBaseMessage(rActor);
+		rMessage.text = rMessage.text .. " [INSUFFICIENT POINTS IN POOL]";
+		Comm.deliverChatMessage(rMessage);
+		return false;
+	end
+
+	tInfo.label = tInfo.label .. string.format(" [SPENT %d FROM %s POOL]", tInfo.nCost, Interface.getString(tInfo.sCostStat):upper());
+
+	-- This is only here because effects use sName instead of label, and we want to display it there too
+	if tInfo.sName then
+		tInfo.sName = tInfo.sName .. string.format(" [SPENT %d FROM %s POOL]", tInfo.nCost, Interface.getString(tInfo.sCostStat):upper());
+	end
+
+    local nNewPool = nCurrentPool - tInfo.nCost;
+	DB.setValue(nodeActor, "abilities." .. tInfo.sCostStat .. ".current", "number", nNewPool);
+    
+    if nNewPool == 0 then
+        local nCurrentWounds = DB.getValue(nodeActor, "wounds", 0);
+        DB.setValue(nodeActor, "wounds", "number", nCurrentWounds + 1);
+    end
+
+	return true;
 end
 
 -- Resolves a stat to either speed, intellect, or might
@@ -163,7 +209,7 @@ function calculateEffortCost(rActor, rAction)
 	end
 
 	local nEffortCost = 0;
-	if rAction.nEffort > 0 then
+	if (rAction.nEffort or 0) > 0 then
 		nEffortCost = 3 + ((rAction.nEffort - 1) * 2) + (rAction.nEffort * nWounded) + (rAction.nEffort * rAction.nArmorEffortCost);
 	end
 
@@ -171,14 +217,13 @@ function calculateEffortCost(rActor, rAction)
 
 	rAction.nCost = (rAction.nCost or 0) + nEffortCost + nCostMod;
 
-	if (rAction.nCost > 0) and (rAction.nEdge > 0) then
+	if ((rAction.nCost or 0) > 0) and ((rAction.nEdge or 0) > 0) then
 		if not rAction.bDisableEdge then
 			rAction.nCost = rAction.nCost - rAction.nEdge;
 		end
 	end
+
 	rAction.nCost = math.max(rAction.nCost, 0);
-	rAction.nTotalCost = rAction.nCost; -- This is here only because the base spendPointsForRoll() function requires it
-	rAction.sDesc = "" -- This is also because spendPointsForRoll requires it.
 end
 
 ----------------------------------------
@@ -266,14 +311,16 @@ function decodeDamageType(vRoll)
 	return vRoll:match("%[DAMAGE %((%w-), (%w-)%)%]");
 end
 
+function encodeEdge(rAction, rRoll)
+	if rAction.bEdgeDisabled then
+		rRoll.sDesc = string.format("%s [EDGE DISABLED]", rRoll.sDesc);
+	elseif rAction.nEdge > 0 then
+		rRoll.sDesc = string.format("%s [APPLIED %s EDGE]", rRoll.sDesc, rAction.nEdge);
+	end
+end
 
 function encodeEffort(rAction, rRoll)
 	if (rAction.nEffort or 0) > 0 then
-		if rAction.bEdgeDisabled then
-			rRoll.sDesc = string.format("%s [EDGE DISABLED]", rRoll.sDesc);
-		elseif rAction.nEdge > 0 then
-			rRoll.sDesc = string.format("%s [APPLIED %s EDGE]", rRoll.sDesc, rAction.nEdge);
-		end
 		rRoll.sDesc = string.format("%s [APPLIED %s EFFORT]", rRoll.sDesc, rAction.nEffort)
 	end
 end

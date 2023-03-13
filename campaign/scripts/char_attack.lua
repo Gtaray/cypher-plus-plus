@@ -48,7 +48,7 @@ function actionDamage(draginfo)
 	rAction.sStatDamage = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "damagetype", ""));
 	rAction.sDamageType = RollManagerCPP.resolveDamageType(DB.getValue(nodeAction, "energytype", ""));
 
-	rAction.bPierce = 0;
+	rAction.bPierce = false;
 	
 	ActionDamageCPP.performRoll(draginfo, rActor, rAction);
 end

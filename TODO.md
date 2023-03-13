@@ -26,6 +26,10 @@ EFFECTS
 * ~~ARMOR~~
 * ~~HINDER~~
 * ~~EASE~~
+* INIT
+* trained, specialized, inability
+* Auto avoid attack (succeed defense roll) for Block ability
+	* Currently on-hold as it would require specifying melee/ranged distinctions, and that's not something that's currently in the system.
 
 NPC ACTIONS
 * ~~Add actions list to NPC sheet~~
@@ -47,6 +51,16 @@ PC ACTIONS
 * ~~Remove generic roll and cost from character abilities~~
 * Player vs Player attacks prompt defense roll
 * Add prompt for upping the cost of an ability
+* ~~dd a way to pay a cost without a roll~~
+* Add checkbox for using powers, and then a way to regain them when certain rests are taken.
+	* "Next recovery action"
+	* "After 10 hour recovery action"
+* A way to specify that abilities should use 'weapon' damage, and then specify which weapon they're using
+	* Could also go with a weapon refactor and there's an 'equipped' weapon button
+
+ITEMS
+* Add an actions tab where you can add actions for the item.
+	* Maybe items in the inventory have the same actions list that abilities do? Probably not enough room for that.
 
 ROLL REFACTORING
 * ~~Add defense action to PCs~~

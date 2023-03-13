@@ -73,7 +73,7 @@ function getPCPowerStatActionText(nodeAction)
 
 	local rAction, rActor = PowerManager.getPCPowerAction(nodeAction);
 	if rAction then
-		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAsset, rAction.nModifier);
+		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAsset, rAction.nLevel, rAction.nModifier);
 		local sDice = StringManager.convertDiceToString({ "d20" }, nMod);
 
 		sText = string.format("%s: %s", StringManager.capitalize(rAction.sStat), sDice)
@@ -142,6 +142,10 @@ function getPCPowerDamageActionText(nodeAction)
 		if rAction.bAmbient then
 			sDamage = string.format("%s [AMBIENT]", sDamage);
 		end
+
+		if rAction.nCost > 0 then
+			sDamage = string.format("%s [Cost: %s]", sDamage, rAction.nCost);
+		end
 	end
 	return sDamage;
 end
@@ -155,6 +159,10 @@ function getPCPowerHealActionText(nodeAction)
 
 		if DB.getValue(nodeAction, "healtargeting", "") == "self" then
 			sHeal = sHeal .. " [SELF]";
+		end
+
+		if rAction.nCost > 0 then
+			sHeal = string.format("%s [Cost: %s]", sHeal, rAction.nCost);
 		end
 	end
 	
@@ -208,7 +216,7 @@ function getPCPowerAction(nodeAction)
 		rAction.sTraining = DB.getValue(nodeAction, "training", "");
 		rAction.nAsset = DB.getValue(nodeAction, "asset", 0);
 		rAction.nModifier = DB.getValue(nodeAction, "modifier", 0);
-		rAction.nCost = DB.getValue(nodeAction, "cost", 0);
+		
 	elseif rAction.type == "attack" then
 		-- This is here because when NPCs attack it uses the default stat for defense
 		-- rather than attack
@@ -225,7 +233,6 @@ function getPCPowerAction(nodeAction)
 		rAction.nAsset = DB.getValue(nodeAction, "asset", 0);
 		rAction.nLevel = DB.getValue(nodeAction, "level", 0);
 		rAction.nModifier = DB.getValue(nodeAction, "modifier", 0);
-		rAction.nCost = DB.getValue(nodeAction, "cost", 0);
 
 	elseif rAction.type == "damage" then
 		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "stat", ""));
@@ -238,18 +245,34 @@ function getPCPowerAction(nodeAction)
 		if rAction.bPierce then
 			rAction.nPierceAmount = DB.getValue(nodeAction, "pierceamount", 0);	
 		end
+
 	elseif rAction.type == "heal" then
 		rAction.sTargeting = DB.getValue(nodeAction, "healtargeting", "");
-		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "statheal", ""));
+		rAction.sStatHeal = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "statheal", ""));
 		rAction.nHeal = DB.getValue(nodeAction, "heal", 0);
+		rAction.sStat = DB.getValue(nodeAction, "coststat", ""); -- Only used if fixed cost is specified
+
 	elseif rAction.type == "effect" then
 		rAction.sName = DB.getValue(nodeAction, "label", "");
-
 		rAction.sApply = DB.getValue(nodeAction, "apply", "");
 		rAction.sTargeting = DB.getValue(nodeAction, "targeting", "");
-		
 		rAction.nDuration = DB.getValue(nodeAction, "durmod", 0);
 		rAction.sUnits = DB.getValue(nodeAction, "durunit", "");
+
+		rAction.sStat = DB.getValue(nodeAction, "coststat", ""); -- Only used if fixed cost is specified
+	end
+
+	-- Resolve cost of the ability
+	local sCostType = DB.getValue(nodeAction, "costtype", "");
+
+	if sCostType == "ability" then
+		rAction.nCost = DB.getValue(nodePower, "statcost", 0);
+		rAction.sCostStat = DB.getValue(nodePower, "stat", "");
+	elseif sCostType == "fixed" then
+		rAction.nCost = DB.getValue(nodeAction, "cost", 0);
+		rAction.sCostStat = rAction.sStat;
+	else
+		rAction.nCost = 0;
 	end
 
 	return rAction, rActor
@@ -281,31 +304,35 @@ function performPcAction(draginfo, rActor, rAction)
 	local rRolls = {};	
 	if rAction.type == "stat" then
 		ActionStatCPP.applyEffort(rActor, rAction);
-		local bCanRoll = RollManager.spendPointsForRoll(nodeActor, rAction);
-		if bCanRoll then
+		if RollManager.spendPointsForRoll(nodeActor, rAction) then
 			table.insert(rRolls, ActionStatCPP.getRoll(rActor, rAction));
 		end
 	elseif rAction.type == "attack" then
 		ActionAttackCPP.applyEffort(rActor, rAction);
-		local bCanRoll = RollManager.spendPointsForRoll(nodeActor, rAction);
-		if bCanRoll then
+		if RollManager.spendPointsForRoll(nodeActor, rAction) then
 			table.insert(rRolls, ActionAttackCPP.getRoll(rActor, rAction));
 		end
 		
 	elseif rAction.type == "damage" then
 		ActionDamageCPP.applyEffort(rActor, rAction);
-		local bCanRoll = RollManager.spendPointsForRoll(nodeActor, rAction);
-		if bCanRoll then
+		if RollManager.spendPointsForRoll(nodeActor, rAction) then
 			table.insert(rRolls, ActionDamageCPP.getRoll(rActor, rAction));
 		end
 		
 	elseif rAction.type == "heal" then
-		table.insert(rRolls, ActionHealCPP.getRoll(rActor, rAction));
+		ActionHealCPP.applyEffort(rActor, rAction);
+		if RollManager.spendPointsForRoll(nodeActor, rAction) then
+			table.insert(rRolls, ActionHealCPP.getRoll(rActor, rAction));
+		end
 		
 	elseif rAction.type == "effect" then
-		local rRoll = ActionEffect.getRoll(draginfo, rActor, rAction);
-		if rRoll then
-			table.insert(rRolls, rRoll);
+		RollManagerCPP.addEffortToAction(rActor, rAction, "effect");
+		RollManagerCPP.addWoundedToAction(rActor, rAction);
+		RollManager.applyDesktopAdjustments(rAction);
+		RollManagerCPP.calculateEffortCost(rActor, rAction)
+
+		if RollManager.spendPointsForRoll(nodeActor, rAction) then
+			table.insert(rRolls, ActionEffect.getRoll(draginfo, rActor, rAction));
 		end
 	end
 	

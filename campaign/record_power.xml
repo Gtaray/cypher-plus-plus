@@ -36,6 +36,20 @@
 	</windowclass>
 
 	<windowclass name="power_action_editor_stat">
+		<script>
+			function onInit()
+				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
+				local bPc = ActorManager.isPC(nodeActor);
+
+				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
+				header_cost.setVisible(bPc);
+				costtype_label.setVisible(bPc);
+				costtype.setVisible(bPc);
+				cost_label.setVisible(bPc and bFixed);
+				cost.setVisible(bPc and bFixed);
+			end
+		</script>
+
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -102,6 +116,28 @@
 				<anchored to="cost" />
 				<static textres="power_label_cost" />
 			</label_fieldtop>
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<cycler_costtype name="costtype" />
+			<label_fieldtop name="costtype_label">
+				<anchored to="costtype" />
+				<static textres="power_label_costtype" />
+			</label_fieldtop>
+			<basicnumber name="cost">
+				<anchored to="costtype" width="60" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="cost_label">
+				<anchored to="cost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 
@@ -155,9 +191,12 @@
 				modifier.setVisible(bPc);
 				modifier_label.setVisible(bPc);
 
+				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
 				header_cost.setVisible(bPc);
-				cost_label.setVisible(bPc);
-				cost.setVisible(bPc);
+				costtype_label.setVisible(bPc);
+				costtype.setVisible(bPc);
+				cost_label.setVisible(bPc and bFixed);
+				cost.setVisible(bPc and bFixed);
 			end
 		</script>
 		<sheetdata>
@@ -254,10 +293,15 @@
 				<static textres="power_header_cost" />
 				<center />
 			</header_column>
+			<cycler_costtype name="costtype" />
+			<label_fieldtop name="costtype_label">
+				<anchored to="costtype" />
+				<static textres="power_label_costtype" />
+			</label_fieldtop>
 			<basicnumber name="cost">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="5" />
+				<anchored to="costtype" width="60" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
 				<min>0</min>
@@ -266,12 +310,14 @@
 				<anchored to="cost" />
 				<static textres="power_label_cost" />
 			</label_fieldtop>
-
 			<!-- <button_stat name="coststat">
-				<anchored to="cost" position="righthigh" offset="10,0" width="80" height="20" />
+				<anchored to="costtype" width="80" height="20">
+					<top />
+					<left parent="costtype" anchor="right" relation="relative" offset="10" />
+				</anchored>
 				<tooltip textres="power_tooltip_coststat" />
 			</button_stat>
-			<label_fieldtop>
+			<label_fieldtop name="coststat_label">
 				<anchored to="coststat" />
 				<static textres="power_label_coststat" />
 			</label_fieldtop> -->
@@ -323,6 +369,13 @@
 				stat_label.setVisible(bPc);
 				ambient.setVisible(not bPc);
 				ambient_label.setVisible(not bPc);
+				
+				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
+				header_cost.setVisible(bPc);
+				costtype_label.setVisible(bPc);
+				costtype.setVisible(bPc);
+				cost_label.setVisible(bPc and bFixed);
+				cost.setVisible(bPc and bFixed);
 			end
 		</script>
 		<sheetdata>
@@ -440,6 +493,39 @@
 				</parameters>
 				<tooltip textres="power_tooltip_ambient" />
 			</cycler_column>
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<cycler_costtype name="costtype" />
+			<label_fieldtop name="costtype_label">
+				<anchored to="costtype" />
+				<static textres="power_label_costtype" />
+			</label_fieldtop>
+			<basicnumber name="cost">
+				<anchored to="costtype" width="60" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="cost_label">
+				<anchored to="cost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+			<!-- <button_stat name="coststat">
+				<anchored to="costtype" width="80" height="20">
+					<top />
+					<left parent="costtype" anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="power_tooltip_coststat" />
+			</button_stat>
+			<label_fieldtop name="coststat_label">
+				<anchored to="coststat" />
+				<static textres="power_label_coststat" />
+			</label_fieldtop> -->
 		</sheetdata>
 	</windowclass>
 
@@ -489,6 +575,21 @@
 	</windowclass>
 
 	<windowclass name="power_action_editor_heal">
+		<script>
+			function onInit()
+				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
+				local bPc = ActorManager.isPC(nodeActor);
+
+				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
+				header_cost.setVisible(bPc);
+				costtype_label.setVisible(bPc);
+				costtype.setVisible(bPc);
+				cost_label.setVisible(bPc and bFixed);
+				cost.setVisible(bPc and bFixed);
+				coststat_label.setVisible(bPc and bFixed);
+				coststat.setVisible(bPc and bFixed);
+			end
+		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -537,6 +638,39 @@
 					<values>self</values>
 				</parameters>
 			</button_stringcycler>
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<cycler_costtype name="costtype" />
+			<label_fieldtop name="costtype_label">
+				<anchored to="costtype" />
+				<static textres="power_label_costtype" />
+			</label_fieldtop>
+			<basicnumber name="cost">
+				<anchored to="costtype" width="60" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="cost_label">
+				<anchored to="cost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+			<button_stat name="coststat">
+				<anchored to="costtype" width="80" height="20">
+					<top />
+					<left parent="costtype" anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="power_tooltip_coststat" />
+			</button_stat>
+			<label_fieldtop name="coststat_label">
+				<anchored to="coststat" />
+				<static textres="power_label_coststat" />
+			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 	
@@ -595,6 +729,21 @@
 	</windowclass>
 
 	<windowclass name="power_action_editor_effect">
+		<script>
+			function onInit()
+				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
+				local bPc = ActorManager.isPC(nodeActor);
+
+				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
+				header_cost.setVisible(bPc);
+				costtype_label.setVisible(bPc);
+				costtype.setVisible(bPc);
+				cost_label.setVisible(bPc and bFixed);
+				cost.setVisible(bPc and bFixed);
+				coststat_label.setVisible(bPc and bFixed);
+				coststat.setVisible(bPc and bFixed);
+			end
+		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -663,6 +812,39 @@
 					<values>action|roll|single</values>
 				</parameters>
 			</button_stringcycler>
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<cycler_costtype name="costtype" />
+			<label_fieldtop name="costtype_label">
+				<anchored to="costtype" />
+				<static textres="power_label_costtype" />
+			</label_fieldtop>
+			<basicnumber name="cost">
+				<anchored to="costtype" width="60" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="cost_label">
+				<anchored to="cost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+			<button_stat name="coststat">
+				<anchored to="costtype" width="80" height="20">
+					<top />
+					<left parent="costtype" anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="power_tooltip_coststat" />
+			</button_stat>
+			<label_fieldtop name="coststat_label">
+				<anchored to="coststat" />
+				<static textres="power_label_coststat" />
+			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 </root>

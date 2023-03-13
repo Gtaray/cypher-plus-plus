@@ -52,4 +52,35 @@
 			</parameters>
 		</button_stringcycler>
 	</template>
+
+	<template name="cycler_costtype">
+		<button_stringcycler name="costtype">
+			<anchored width="140" height="20">
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+				<left offset="5" />
+			</anchored>
+			<parameters>
+				<labelsres>power_label_costtype_ability|power_label_costtype_fixed</labelsres>
+				<values>ability|fixed</values>
+				<defaultlabelres>dash</defaultlabelres>
+			</parameters>
+			<script>
+				function onInit()
+					super.onInit();
+					onValueChanged();
+				end
+				function onValueChanged()
+					local sValue = getStringValue();
+					local bFixed = sValue == "fixed";
+
+					window.cost.setVisible(bFixed);
+					window.cost_label.setVisible(bFixed);
+					if window.coststat then
+						window.coststat.setVisible(bFixed);
+						window.coststat_label.setVisible(bFixed);
+					end
+				end
+			</script>
+		</button_stringcycler>
+	</template>
 </root>

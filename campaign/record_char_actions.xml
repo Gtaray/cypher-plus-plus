@@ -132,7 +132,17 @@
 		<script file="campaign/scripts/power_item.lua" />
 		<sheetdata>
 			<button_roll name="statroll" merge="delete" />
-			<stringcontrol name="statcostview" merge="delete" />
+
+			<stringcontrol name="statcostview" merge="join">
+				<script>
+					function onDoubleClick(x, y)
+						window.onCostDoubleClicked();
+					end
+				</script>
+				<cursor>
+					<hover>hand</hover>
+				</cursor>
+			</stringcontrol>
 
 			<button_poweritem_toggle_actions name="activatedetail" insertbefore="name">
 				<anchored>
@@ -167,6 +177,39 @@
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<basicnumber name="statcost">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="5" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="statcost_label">
+				<anchored to="statcost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+
+			<button_stat name="stat">
+				<anchored to="statcost" width="80" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+			</button_stat>
+			<label_fieldtop>
+				<anchored to="stat" />
+				<static textres="power_label_stat" />
+			</label_fieldtop>
+
+			<header_column name="header_desc">
+				<static textres="power_header_description" />
+				<center />
+			</header_column>
 			
 			<string_column_full name="description">
 				<readonly />

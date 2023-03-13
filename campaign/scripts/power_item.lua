@@ -15,6 +15,8 @@ function onInit()
 	local sActionsPath = PowerManagerCore.getPowerActionsPath();
 	DB.addHandler(DB.getPath(node, sActionsPath), "onChildAdded", self.onActionListChanged);
 	DB.addHandler(DB.getPath(node, sActionsPath), "onChildDeleted", self.onActionListChanged);
+
+	onCostChanged();
 end
 function onClose()
 	if super and super.onClose then
@@ -28,6 +30,42 @@ end
 
 function onMenuSelection(...)
 	PowerManagerCore.onDefaultPowerMenuSelection(self, ...)
+end
+
+function onCostChanged()
+	local bShow = (statcost.getValue() ~= 0);
+	statcostview.setVisible(bShow);
+				
+	local sStatView = "" .. statcost.getValue();
+	local sStat = stat.getValue();
+	if sStat ~= "" then
+		sStatView = sStatView .. " " .. StringManager.capitalize(sStat:sub(1,2));
+	end
+	statcostview.setValue(sStatView);
+end
+
+function onCostDoubleClicked()
+	local node = getDatabaseNode();
+	local nodeActor = DB.getChild(node, "...");
+	local rAction = {
+		label = string.format("[COST] %s", name.getValue()),
+		nCost = statcost.getValue(),
+		sCostStat = stat.getValue(),
+		nEffort = 0,
+		nAssets = 0,
+		bDisableEdge = false
+	};
+
+	RollManagerCPP.addEffortToAction(nodeActor, rAction, "cost");
+	RollManagerCPP.calculateEffortCost(nodeActor, rAction);
+
+	if RollManager.spendPointsForRoll(nodeActor, rAction) then
+		local rMessage = ChatManager.createBaseMessage(nodeActor);
+		rMessage.text = rAction.label;
+		rMessage.icon = "action_damage";
+		Comm.deliverChatMessage(rMessage);
+	end
+
 end
 
 function onActionListChanged()

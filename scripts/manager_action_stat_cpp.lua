@@ -31,6 +31,7 @@ function getRoll(rActor, rAction)
 	rRoll.nMod = rAction.nModifier or 0;
 	rRoll.sDesc = string.format("[STAT] %s", rAction.sStat or "");
 
+	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
 	RollManagerCPP.encodeAssets(rAction, rRoll);
 

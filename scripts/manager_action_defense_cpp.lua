@@ -35,6 +35,7 @@ function getRoll(rActor, rAction)
 	RollManagerCPP.encodeStat(rAction, rRoll);
 	RollManagerCPP.encodeTraining(rAction, rRoll);
 	RollManagerCPP.encodeAssets(rAction, rRoll);
+	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
 
 	if rAction.rTarget then

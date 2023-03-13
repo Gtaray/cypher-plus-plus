@@ -35,7 +35,7 @@ function getRoll(rActor, rAction)
 	rRoll.aDice = { };
 	rRoll.nMod = rAction.nHeal or 0;
 	
-	rRoll.sDesc = string.format("[HEAL (%s)] %s", rAction.sStat, rAction.label);
+	rRoll.sDesc = string.format("[HEAL (%s)] %s", rAction.sStatHeal, rAction.label);
 
 	-- Handle self-targeting
 	if rAction.sTargeting == "self" then

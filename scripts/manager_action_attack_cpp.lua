@@ -31,6 +31,7 @@ function getRoll(rActor, rAction)
 	RollManagerCPP.encodeStat(rAction, rRoll);
 	RollManagerCPP.encodeTraining(rAction, rRoll);
 	RollManagerCPP.encodeAssets(rAction, rRoll);
+	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
 	RollManagerCPP.encodeCost(rAction, rRoll);
 
@@ -183,11 +184,9 @@ function onRoll(rSource, rTarget, rRoll)
 	end
 	
 	-- Only process roll successes if a PC is attacking an NPC (not PC vs PC)
+	local bSuccess, bAutomaticSuccess = RollManagerCPP.processRollSuccesses(rSource, rTarget, rRoll, rMessage, aAddIcons);
 	if rTarget and not ActorManager.isPC(rTarget) then
-		local bSuccess, bAutomaticSuccess = RollManagerCPP.processRollSuccesses(rSource, rTarget, rRoll, rMessage, aAddIcons);
-
-		if rTarget then
-			local sIcon = "";
+		local sIcon = "";
 			if bSuccess then
 				if bAutomaticSuccess then
 					rMessage.text = rMessage.text .. " [AUTOMATIC HIT]";
@@ -215,7 +214,6 @@ function onRoll(rSource, rTarget, rRoll)
 			else
 				rMessage.icon = sIcon;
 			end
-		end
 	end
 	
 	Comm.deliverChatMessage(rMessage);
