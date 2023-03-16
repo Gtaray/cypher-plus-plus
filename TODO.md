@@ -45,7 +45,7 @@ PC ACTIONS
 * ~~Rolls that target an NPC check for a PC's training/assets/modifiers and see if it reduces the target to 0, and if so, don't roll just annouce.~~
 * ~~Attack action~~
 * ~~Damage action~~
-	* Weapon attacks still have no pierce amount
+	* ~~Weapon attacks still have no pierce amount~~
 * ~~Heal~~
 * ~~Effects~~
 * ~~Remove generic roll and cost from character abilities~~
@@ -53,8 +53,9 @@ PC ACTIONS
 * Add prompt for upping the cost of an ability
 * ~~dd a way to pay a cost without a roll~~
 * ~~Add checkbox for using powers, and then a way to regain them when certain rests are taken.~~
+* ~~Attacks have been refactored~~
 * A way to specify that abilities should use 'weapon' damage, and then specify which weapon they're using
-	* Could also go with a weapon refactor and there's an 'equipped' weapon button
+	* ~~Could also go with a weapon refactor and there's an 'equipped' weapon button~~
 
 ITEMS
 * Add an actions tab where you can add actions for the item.

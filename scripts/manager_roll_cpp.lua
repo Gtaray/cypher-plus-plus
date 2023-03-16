@@ -526,3 +526,27 @@ function resolveTarget(rRoll, rTarget, bRetainText)
     end
 	return rTarget;
 end
+
+function encodeLevel(rAction, rRoll)
+	if (rAction.nLevel or 0) ~= 0 then
+		rRoll.sDesc = string.format("%s [LEVEL: %s]", rRoll.sDesc, rAction.nLevel)
+	end
+end
+
+function decodeLevel(vRoll, bPersist)
+	local sDesc = vRoll;
+	if type(vRoll) == "table" then
+		sDesc = vRoll.sDesc;
+	end
+
+	local nLevel = tonumber(sDesc:match("%[LEVEL: (-?%d+)%]") or 0);
+
+	if not bPersist then
+		sDesc = sDesc:gsub(" %[LEVEL: %-?%d+%]", "");
+		if type(vRoll) == "table" then
+			vRoll.sDesc = sDesc;
+		end
+	end
+
+	return nLevel;
+end

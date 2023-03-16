@@ -4,7 +4,7 @@
 function getCreatureLevel(rCreature)
 	local creatureNode = ActorManager.getCTNode(rCreature);
 	if not creatureNode then
-		ActorManager.getCreatureNode(rCreature);
+		creatureNode = ActorManager.getCreatureNode(rCreature);
 	end
 
 	if not creatureNode then
@@ -157,4 +157,51 @@ function resistanceCheckerHelper(tDmgMods, aDmgTypes)
 	end
 
 	return false, 0;
+end
+
+---------------------------------------------------------------
+-- EQUIPPED WEAPONS
+---------------------------------------------------------------
+function getEquippedWeaponNode(nodeActor)
+	for _, node in ipairs(DB.getChildList(nodeActor, "attacklist")) do
+		if DB.getValue(node, "equipped", 0) == 1 then
+			return node;
+		end
+	end
+end
+
+function getEquippedWeapon(nodeActor)
+	local node = ActorManagerCPP.getEquippedWeaponNode(nodeActor);
+	if not node then
+		return {};
+	end
+
+	local rWeapon = {};
+	rWeapon.sLabel = DB.getValue(node, "name", "");
+	rWeapon.sAttackRange = DB.getValue(node, "atkrange", "");
+	rWeapon.sStat = RollManagerCPP.resolveStat(DB.getValue(node, "stat", ""), "might");
+	rWeapon.sTraining = DB.getValue(node, "training", "");
+	rWeapon.nAssets = DB.getValue(node, "asset", 0);
+	rWeapon.nModifier = DB.getValue(node, "modifier", 0);
+
+	rWeapon.nDamage = DB.getValue(node, "damage", 0);
+	rWeapon.sDamageType = DB.getValue(node, "damagetype", "");
+	rWeapon.sStatDamage = RollManagerCPP.resolveStat(DB.getValue(node, "statdmg", ""), "might");
+	rWeapon.bPierce = DB.getValue(node, "pierce", "") == "yes";
+
+	if rWeapon.bPierce then
+		rWeapon.nPierceAmount = DB.getValue(node, "pierceamount", 0);	
+	end
+
+	return rWeapon;
+end
+
+function setEquippedWeapon(nodeActor, nodeWeapon)
+	local sWeaponNode = DB.getName(nodeWeapon)
+	for _, node in ipairs(DB.getChildList(nodeActor, "attacklist")) do
+		-- Set every weapon other than the specified one to unequipped
+		if DB.getName(node) ~= sWeaponNode then
+			DB.setValue(node, "equipped", "number", 0);
+		end
+	end
 end

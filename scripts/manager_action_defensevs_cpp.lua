@@ -23,14 +23,13 @@ function getRoll(rActor, rAction)
 	-- This is the base difficulty of the defense task
 	-- This is here for display purposes. The difficulty will be re-calced
 	-- when the player makes a defense roll
-	rRoll.nDifficulty = rAction.nLevel;
+	rRoll.nDifficulty = rAction.nLevel or 0;
 
 	rRoll.sDesc = string.format(
 		"[ATTACK (%s, %s)] %s", 
 		rAction.sAttackRange, 
 		rAction.sStat, 
-		rAction.label, 
-		rRoll.nDifficulty);
+		rAction.label);
 
 	return rRoll;
 end

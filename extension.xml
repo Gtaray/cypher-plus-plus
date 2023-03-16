@@ -11,6 +11,8 @@
 	<base>
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_char_actions.xml" />
+		<includefile source="campaign/record_char_ability.xml" />
+		<includefile source="campaign/record_char_attack.xml" />
 		<includefile source="campaign/record_power.xml" />
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/template_char.xml" />
@@ -42,5 +44,7 @@
 
 		<!-- Graphics -->
 		<icon name="radial_power_action_stat" file="graphics/radial/icon_dice_custom.png" />
+		<icon name="char_weapon_handoff" file="graphics/icons/char_weapon_handoff.png" />
+		<icon name="char_weapon_hand1" file="graphics/icons/char_weapon_hand1.png" />
 	</base>
 </root>

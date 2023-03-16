@@ -17,8 +17,10 @@ function onInit()
 	DB.addHandler(DB.getPath(node, sActionsPath), "onChildDeleted", self.onActionListChanged);
 	DB.addHandler(DB.getPath(node, "period"), "onUpdate", self.onUsePeriodChanged);
 
-	onCostChanged();
-	onUsePeriodChanged();
+	if ActorManager.isPC(DB.getChild(node, "...")) then
+		onCostChanged();
+		onUsePeriodChanged();
+	end
 end
 function onClose()
 	if super and super.onClose then

@@ -73,7 +73,7 @@ function getPCPowerStatActionText(nodeAction)
 
 	local rAction, rActor = PowerManager.getPCPowerAction(nodeAction);
 	if rAction then
-		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAsset, rAction.nLevel, rAction.nModifier);
+		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAssets, rAction.nLevel, rAction.nModifier);
 		local sDice = StringManager.convertDiceToString({ "d20" }, nMod);
 
 		sText = string.format("%s: %s", StringManager.capitalize(rAction.sStat), sDice)
@@ -97,7 +97,7 @@ function getPCPowerAttackActionText(nodeAction)
 
 	local rAction, rActor = PowerManager.getPCPowerAction(nodeAction);
 	if rAction then		
-		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAsset, rAction.nLevel, rAction.nModifier);
+		local nDiff, nMod = RollManagerCPP.resolveDifficultyModifier(rAction.sTraining, rAction.nAssets, rAction.nLevel, rAction.nModifier);
 		local sDice = StringManager.convertDiceToString({ "d20" }, nMod);
 
 		if rAction.sAttackRange ~= "" then
@@ -124,7 +124,7 @@ function getPCPowerDamageActionText(nodeAction)
 	local sDamage = "";
 	local rAction, rActor = PowerManager.getPCPowerAction(nodeAction);
 	if rAction then
-		sDamage = string.format("%s: %s %s damage", StringManager.capitalize(rAction.sStat), rAction.nDamage, rAction.sDamageType);
+		sDamage = string.format("%s: %s %s damage", StringManager.capitalize(rAction.sStat), rAction.nDamage, rAction.sDamageType or "untyped");
 
 		if rAction.sStat ~= rAction.sStatDamage then
 			sDamage = string.format("%s -> %s", sDamage, StringManager.capitalize(rAction.sStatDamage));
@@ -201,7 +201,8 @@ function getPCPowerAction(nodeAction)
 	end
 
 	local nodePower = DB.getChild(nodeAction, "...");
-	local rActor = ActorManager.resolveActor(PowerManagerCore.getPowerActorNode(nodePower));
+	local nodeActor = PowerManagerCore.getPowerActorNode(nodePower);
+	local rActor = ActorManager.resolveActor(nodeActor);
 	if not rActor then
 		return;
 	end
@@ -214,36 +215,47 @@ function getPCPowerAction(nodeAction)
 	if rAction.type == "stat" then
 		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "stat", ""));
 		rAction.sTraining = DB.getValue(nodeAction, "training", "");
-		rAction.nAsset = DB.getValue(nodeAction, "asset", 0);
+		rAction.nAssets = DB.getValue(nodeAction, "asset", 0);
 		rAction.nModifier = DB.getValue(nodeAction, "modifier", 0);
 		
 	elseif rAction.type == "attack" then
-		-- This is here because when NPCs attack it uses the default stat for defense
-		-- rather than attack
-		local sDefaultStat = nil;
-		if ActorManager.isPC(rActor) then
-			sDefaultStat = "might";
-		else
-			sDefaultStat = "speed";
-		end
-
 		rAction.sAttackRange = DB.getValue(nodeAction, "atkrange", "");
-		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "stat", ""), sDefaultStat);
+		rAction.sStat = DB.getValue(nodeAction, "stat", "");
 		rAction.sTraining = DB.getValue(nodeAction, "training", "");
-		rAction.nAsset = DB.getValue(nodeAction, "asset", 0);
+		rAction.nAssets = DB.getValue(nodeAction, "asset", 0);
 		rAction.nLevel = DB.getValue(nodeAction, "level", 0);
 		rAction.nModifier = DB.getValue(nodeAction, "modifier", 0);
+
+		-- For PCs, we try to apply an equipped weapon
+		-- for NPCs, we double check that stat isn't empty
+		if ActorManager.isPC(rActor) then
+			applyWeaponPropertiesToAttack(rAction, nodePower);
+		else
+			if (rAction.sStat or "") == "" then
+				rAction.sStat = "speed";
+			end
+		end
 
 	elseif rAction.type == "damage" then
 		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "stat", ""));
 		rAction.nDamage = DB.getValue(nodeAction, "damage", 0);
-		rAction.sDamageType = RollManagerCPP.resolveDamageType(DB.getValue(nodeAction, "damagetype", ""));
+		rAction.sDamageType = DB.getValue(nodeAction, "damagetype", "");
 		rAction.sStatDamage = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "statdmg", ""));
 		rAction.bPierce = DB.getValue(nodeAction, "pierce", "") == "yes";
 		rAction.bAmbient = DB.getValue(nodeAction, "ambient", "") == "yes";
 
 		if rAction.bPierce then
 			rAction.nPierceAmount = DB.getValue(nodeAction, "pierceamount", 0);	
+		end
+
+		-- For PCs, we try to apply an equipped weapon
+		-- for NPCs, we double check that stat isn't empty
+		if ActorManager.isPC(rActor) then
+			applyWeaponPropertiesToDamage(rAction, nodePower);
+		else
+			if (rAction.sStat or "") == "" then
+				rAction.sStat = "might";
+			end
 		end
 
 	elseif rAction.type == "heal" then
@@ -276,6 +288,59 @@ function getPCPowerAction(nodeAction)
 	end
 
 	return rAction, rActor
+end
+
+function applyWeaponPropertiesToAttack(rAttack, nodeAbility)
+	local nodeActor = PowerManagerCore.getPowerActorNode(nodeAbility);
+
+	local rWeapon = {};
+	local bUseEquipped = DB.getValue(nodeAbility, "useequipped", "") == "yes";
+	if bUseEquipped then
+		rWeapon = ActorManagerCPP.getEquippedWeapon(nodeActor)
+	end
+
+	if (rAttack.sAttackRange or "") == "" then
+		rAttack.sAttackRange = rWeapon.sAttackRange or "";
+	end
+	if (rAttack.sStat or "") == "" then
+		rAttack.sStat = rWeapon.sStat or "might";
+	end
+	rAttack.nAssets = rAttack.nAssets + (rWeapon.nAssets or 0)
+	rAttack.nModifier = rAttack.nModifier + (rWeapon.nModifier or 0)
+
+	if (rWeapon.sLabel or "") ~= "" then
+		rAttack.label = rAttack.label .. " with " .. rWeapon.sLabel;
+	end
+end
+
+function applyWeaponPropertiesToDamage(rDamage, nodeAbility)
+	local nodeActor = PowerManagerCore.getPowerActorNode(nodeAbility);
+
+	local rWeapon = {};
+	local bUseEquipped = DB.getValue(nodeAbility, "useequipped", "") == "yes";
+	if bUseEquipped then
+		rWeapon = ActorManagerCPP.getEquippedWeapon(nodeActor)
+	end
+
+	if (rDamage.sStat or "") == "" then
+		rAttack.sStat = rWeapon.sStat or "might";
+	end
+	if (rDamage.sStatDamage or "") == "" then
+		rDamage.sStatDamage = rWeapon.sStatDamage or "might";
+	end
+	if (rDamage.sDamageType or "") == "" then
+		rDamage.sDamageType = rWeapon.sDamageType;
+	end
+
+	rDamage.nDamage = rDamage.nDamage + (rWeapon.nDamage or 0)
+	rDamage.bPierce = rDamage.bPierce or rWeapon.bPierce;
+	if rDamage.bPierce then
+		rDamage.nPierceAmount = (rDamage.nPierceAmount or 0) + (rWeapon.nPierceAmount or 0);
+	end
+
+	if (rWeapon.sLabel or "") ~= "" then
+		rDamage.label = rDamage.label .. " with " .. rWeapon.sLabel;
+	end
 end
 
 -------------------------

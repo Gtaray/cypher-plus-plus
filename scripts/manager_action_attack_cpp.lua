@@ -31,6 +31,7 @@ function getRoll(rActor, rAction)
 	RollManagerCPP.encodeStat(rAction, rRoll);
 	RollManagerCPP.encodeTraining(rAction, rRoll);
 	RollManagerCPP.encodeAssets(rAction, rRoll);
+	RollManagerCPP.encodeLevel(rAction, rRoll);
 	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
 	RollManagerCPP.encodeCost(rAction, rRoll);
@@ -43,6 +44,7 @@ function modRoll(rSource, rTarget, rRoll)
 	local nAssets = RollManagerCPP.decodeAssets(rRoll) or 0;
 	local nEffort = RollManagerCPP.decodeEffort(rRoll, true) or 0;
 	local bInability, bTrained, bSpecialized = RollManagerCPP.decodeTraining(rRoll, true);
+	local nLevel = RollManagerCPP.decodeLevel(rRoll); -- Don't need to persist here
 
 	local bEffects = false;
 	local nDiffEffects = 0; -- Keep track of the roll's difficulty changes via effects
@@ -83,6 +85,11 @@ function modRoll(rSource, rTarget, rRoll)
 		nRollEffects = nRollEffects + nAttackEffect % 3;
 
 		rRoll.nDifficulty = rRoll.nDifficulty - nDiffMod;
+	end
+
+	-- Adjust the roll based on the level
+	if nLevel ~= 0 then
+		rRoll.nDifficulty = rRoll.nDifficulty + nLevel;
 	end
 
 	-- Get ease/hinder effects

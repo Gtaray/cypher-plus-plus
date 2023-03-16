@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+	<windowclass name="char_ability" merge="join">
+		<script file="campaign/scripts/power_item.lua" />
+		<sheetdata>
+			<button_roll name="statroll" merge="delete" />
+
+			<button_use_power name="used" insertbefore="statcostview" />
+
+			<stringcontrol name="statcostview" merge="join">
+				<script>
+					function onDoubleClick(x, y)
+						window.onCostDoubleClicked();
+					end
+				</script>
+				<anchored height="20">
+					<top offset="2" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<cursor>
+					<hover>hand</hover>
+				</cursor>
+			</stringcontrol>
+
+			<button_poweritem_toggle_actions name="activatedetail" insertbefore="name">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+				</anchored>
+			</button_poweritem_toggle_actions>
+
+			<list_poweraction_mini name="actionsmini" insertbefore="name">
+				<script>
+					function onInit()
+						setVisible(true);
+					end
+				</script>
+			</list_poweraction_mini>
+
+			<list_poweraction name="actions">
+				<invisible />
+			</list_poweraction>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ability_main">
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				ftdesc.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<header_column name="header_properties">
+				<static textres="power_header_properties" />
+				<center />
+			</header_column>
+			<label_column name="useequipped_label">
+				<static textres="power_label_useequipped" />
+			</label_column>
+			<cycler_column name="useequipped">
+				<anchored width="60" />
+				<parameters>
+					<labelsres>yes</labelsres>
+					<values>yes</values>
+					<defaultlabelres>no</defaultlabelres>
+				</parameters>
+				<tooltip textres="power_tooltip_useequipped" />
+			</cycler_column>
+
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<basicnumber name="statcost">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="5" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="statcost_label">
+				<anchored to="statcost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+
+			<button_stat name="stat">
+				<anchored to="statcost" width="80" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+			</button_stat>
+			<label_fieldtop>
+				<anchored to="stat" />
+				<static textres="power_label_stat" />
+			</label_fieldtop>
+
+			<header_column name="header_recharge">
+				<static textres="power_header_recharge" />
+				<center />
+			</header_column>
+
+			<label_column name="period_label">
+				<static textres="power_label_recharge_on" />
+			</label_column>
+			<cycler_column name="period">
+				<anchored width="200" />
+				<parameters>
+					<labelsres>power_recharge_any|power_recharge_first|power_recharge_last|power_recharge_manual</labelsres>
+					<values>any|first|last|manual</values>
+					<defaultlabelres>dash</defaultlabelres>
+				</parameters>
+			</cycler_column>			
+
+			<header_column name="header_desc">
+				<static textres="power_header_description" />
+				<center />
+			</header_column>
+			
+			<string_column_full name="description">
+				<readonly />
+				<invisible />
+			</string_column_full>
+
+			<basicft name="ftdesc">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<script>
+					function onInit()
+						local oldDesc = window.description.getValue();
+						if oldDesc == "" then
+							return;
+						end
+						
+						local aDescriptionSplit,_ = StringManager.split(oldDesc, "\n", true);
+						
+						local sFormattedString = "";
+						for _,sDescFragment in pairs(aDescriptionSplit) do
+							sFormattedString = sFormattedString .. "&lt;p&gt;" .. sDescFragment .. "&lt;/p&gt;";
+						end
+						
+						setValue(sFormattedString);
+						window.description.setValue("");
+					end
+				</script>
+				<tabtarget prev="modifier" />
+			</basicft>
+		</sheetdata>
+	</windowclass>
+</root>

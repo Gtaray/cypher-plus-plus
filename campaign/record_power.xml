@@ -147,10 +147,22 @@
 		<script>
 			function onInit()
 				self.onDataChanged();
-				DB.addHandler(getDatabaseNode(), "onChildUpdate", self.onDataChanged);
+				local node = getDatabaseNode();
+				local abilityNode = DB.getChild(node, "...");
+				local nodeActor = PowerManagerCore.getPowerActorNode(abilityNode);
+
+				DB.addHandler(node, "onChildUpdate", self.onDataChanged);
+				DB.addHandler(DB.getPath(abilityNode, "useequipped"), "onUpdate", onDataChanged);
+				DB.addHandler(DB.getPath(nodeActor, "attacklist.*"), "onChildUpdate", onDataChanged);
 			end
 			function onClose()
-				DB.removeHandler(getDatabaseNode(), "onChildUpdate", self.onDataChanged);
+				local node = getDatabaseNode();
+				local abilityNode = DB.getChild(node, "...");
+				local nodeActor = PowerManagerCore.getPowerActorNode(abilityNode);
+
+				DB.removeHandler(node, "onChildUpdate", self.onDataChanged);
+				DB.removeHandler(DB.getPath(abilityNode, "useequipped"), "onUpdate", onDataChanged);
+				DB.removeHandler(DB.getPath(nodeActor, "attacklist.*"), "onChildUpdate", onDataChanged);
 			end
 			function onDataChanged()
 				attackview.setValue(PowerActionManagerCore.getActionText(getDatabaseNode()));
@@ -224,6 +236,7 @@
 					<top  />
 					<left anchor="right" relation="relative" />
 				</anchored>
+				<tooltip textres="power_tooltip_attackrange" />
 			</cycler_range>
 			<label_fieldtop>
 				<anchored to="atkrange" />
@@ -235,6 +248,7 @@
 					<top  />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
+				<tooltip textres="power_tooltip_statselector" />
 			</button_stat>
 			<label_fieldtop>
 				<anchored to="stat" />
@@ -330,10 +344,22 @@
 		<script>
 			function onInit()
 				self.onDataChanged();
-				DB.addHandler(getDatabaseNode(), "onChildUpdate", self.onDataChanged);
+				local node = getDatabaseNode();
+				local abilityNode = DB.getChild(node, "...");
+				local nodeActor = PowerManagerCore.getPowerActorNode(abilityNode);
+
+				DB.addHandler(node, "onChildUpdate", self.onDataChanged);
+				DB.addHandler(DB.getPath(abilityNode, "useequipped"), "onUpdate", onDataChanged);
+				DB.addHandler(DB.getPath(nodeActor, "attacklist.*"), "onChildUpdate", onDataChanged);
 			end
 			function onClose()
-				DB.removeHandler(getDatabaseNode(), "onChildUpdate", self.onDataChanged);
+				local node = getDatabaseNode();
+				local abilityNode = DB.getChild(node, "...");
+				local nodeActor = PowerManagerCore.getPowerActorNode(abilityNode);
+
+				DB.removeHandler(node, "onChildUpdate", self.onDataChanged);
+				DB.removeHandler(DB.getPath(abilityNode, "useequipped"), "onUpdate", onDataChanged);
+				DB.removeHandler(DB.getPath(nodeActor, "attacklist.*"), "onChildUpdate", onDataChanged);
 			end
 			function onDataChanged()
 				damageview.setValue(PowerActionManagerCore.getActionText(getDatabaseNode()));
@@ -396,7 +422,6 @@
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
 					<left offset="5" />
 				</anchored>
-				<min>0</min>
 			</basicnumber>
 			<label_fieldtop>
 				<anchored to="damage" />
