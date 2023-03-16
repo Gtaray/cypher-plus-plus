@@ -17,10 +17,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
-    - name: Create Zip
-      uses: ncipollo/release-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Zip
+      run: |
+        zip  CypherPlusPlus.ext README.md
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
