@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root version="3.3" release="1.0">
-	<announcement text="Loaded Cypher++" font="emotefont" />
+	<announcement text="Loaded Cypher++ v1.0.0" font="emotefont" />
 	<properties>
 		<name>Cypher++</name>
 		<version>1.0.0</version>
