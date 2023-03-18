@@ -48,6 +48,11 @@ function actionAttack(draginfo)
 	rAction.nCost = DB.getValue(nodeAction, "cost", 0);
 	rAction.sCostStat = rAction.sStat; -- Might be a limitation, but right now the attack/damage all uses the same stat
 
+	-- If the attack type is set to weapon, add the weapon type
+	if DB.getValue(nodeAction, "type", "") == "" then
+		rAction.sWeaponType = DB.getValue(nodeAction, "weapontype", "");
+	end
+
 	ActionAttackCPP.performRoll(draginfo, rActor, rAction)
 end
 

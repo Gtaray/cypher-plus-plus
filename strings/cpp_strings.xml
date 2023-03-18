@@ -76,6 +76,10 @@
 	<string name="power_type_weapon">Weapon</string>
 	<string name="power_type_magic">Magic</string>
 	<string name="power_label_useammunition">Use Ammo</string>
+	<string name="power_label_weapontype">Weapon Type</string>
+	<string name="power_weapontype_light">Light</string>
+	<string name="power_weapontype_medium">Medium</string>
+	<string name="power_weapontype_heavy">Heavy</string>
 
 	<string name="power_label_useequipped">Use Equipped</string>
 	<string name="power_tooltip_useequipped">Should this ability use the attack and damage properties from the currently equipped weapon.</string>

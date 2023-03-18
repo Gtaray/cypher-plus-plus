@@ -307,6 +307,7 @@ function applyWeaponPropertiesToAttack(rAttack, nodeAbility)
 	end
 	rAttack.nAssets = rAttack.nAssets + (rWeapon.nAssets or 0)
 	rAttack.nModifier = rAttack.nModifier + (rWeapon.nModifier or 0)
+	rAttack.sWeaponType = rWeapon.sWeaponType or ""; -- Add the weapon type if it exists
 
 	if (rWeapon.sLabel or "") ~= "" then
 		rAttack.label = rAttack.label .. " with " .. rWeapon.sLabel;

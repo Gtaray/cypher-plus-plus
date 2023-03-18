@@ -550,3 +550,19 @@ function decodeLevel(vRoll, bPersist)
 
 	return nLevel;
 end
+
+function encodeWeaponType(rAction, rRoll)
+	if (rAction.sWeaponType or "") ~= "" then
+		rRoll.sDesc = string.format("%s [WTYPE: %s]", rRoll.sDesc, rAction.sWeaponType);
+	end
+end
+
+function decodeWeaponType(rRoll, bPersist)
+	local sWeaponType = rRoll.sDesc:match("%[WTYPE: (%w-)%]");
+	
+	if not bPersist then
+		rRoll.sDesc = rRoll.sDesc:gsub(" %[WTYPE: %w-%]", "");
+	end
+
+	return sWeaponType;
+end

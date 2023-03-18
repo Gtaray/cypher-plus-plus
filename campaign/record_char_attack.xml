@@ -145,6 +145,16 @@
 	</windowclass>
 
 	<windowclass name="pc_weapon_editor_main">
+		<script>
+			function onInit()
+				onAttackTypeChanged();
+			end
+			function onAttackTypeChanged()
+				local bWeapon = DB.getValue(getDatabaseNode(), "type", "") == "";
+				weapontype_label.setVisible(bWeapon);
+				weapontype.setVisible(bWeapon);
+			end
+		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -164,11 +174,48 @@
 				<static textres="power_label_type" />
 			</label_column>
 			<cycler_column name="type">
+				<script>
+					function onValueChanged()
+						if super and super.onValueChanged then
+							super.onValueChanged();
+						end
+						window.onAttackTypeChanged();
+					end
+				</script>
 				<anchored width="80" />
 				<parameters>
 					<labelsres>power_type_magic</labelsres>
 					<values>magic</values>
 					<defaultlabelres>power_type_weapon</defaultlabelres>
+				</parameters>
+			</cycler_column>
+
+			<label_column name="weapontype_label">
+				<static textres="power_label_weapontype" />
+			</label_column>
+			<cycler_column name="weapontype">
+				<script>
+					function onValueChanged()
+						if super and super.onValueChanged then
+							super.onValueChanged();
+						end
+						local node = window.getDatabaseNode();
+						local sWeaponType = DB.getValue(getDatabaseNode());
+						local nDmg = DB.getValue(node, "damage", 0);
+						if sWeaponType == "light" and (nDmg == 0 or nDmg == 4 or nDmg == 6) then
+							DB.setValue(node, "damage", "number", 2);
+						elseif sWeaponType == "medium" and (nDmg == 0 or nDmg == 2 or nDmg == 6) then
+							DB.setValue(node, "damage", "number", 4);
+						elseif sWeaponType == "heavy" and (nDmg == 0 or nDmg == 2 or nDmg == 4) then
+							DB.setValue(node, "damage", "number", 6);
+						end
+					end
+				</script>
+				<anchored width="80" />
+				<parameters>
+					<labelsres>power_weapontype_light|power_weapontype_medium|power_weapontype_heavy</labelsres>
+					<values>light|medium|heavy</values>
+					<defaultlabelres>dash</defaultlabelres>
 				</parameters>
 			</cycler_column>
 

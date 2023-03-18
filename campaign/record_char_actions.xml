@@ -2,6 +2,11 @@
 
 <root>
 	<windowclass name="charsheet_actions" merge="join">
+		<script>
+			function onEditModeChanged()
+				abilitylist.update();
+			end
+		</script>
 		<sheetdata>
 			<label name="armor_label" merge="delete" />
 			<basicnumber name="armor" merge="delete" />
@@ -102,6 +107,23 @@
 				<anchored to="intellectdefroll" />
 				<static textres="char_label_statdef" />
 			</label_fieldtop>
+
+			<button_iedit name="attacklist_iedit" merge="delete" />
+			<button_iedit name="attacklist_iedit">
+				<anchored to="attacklist" position="aboveleft" offset="0,0" />
+				<target>attacklist</target>
+			</button_iedit>
+
+			<button_iedit name="attacklist_iadd" merge="delete" />
+			<button_iadd name="attacklist_iadd">
+				<anchored to="attacklist_iedit" position="righthigh" offset="0,0" />
+				<target>attacklist</target>
+			</button_iadd>
+
+			<button_iedit name="abilitylist_iedit" merge="delete" />
+			<button_iedit name="abilitylist_iedit" insertbefore="abilitylist_iadd">
+				<anchored to="abilitylist" position="aboveleft" offset="0,0" />
+			</button_iedit>
 		</sheetdata>
 	</windowclass>
 

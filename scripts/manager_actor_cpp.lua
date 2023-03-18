@@ -188,6 +188,7 @@ function getEquippedWeapon(nodeActor)
 	rWeapon.sDamageType = DB.getValue(node, "damagetype", "");
 	rWeapon.sStatDamage = RollManagerCPP.resolveStat(DB.getValue(node, "statdmg", ""), "might");
 	rWeapon.bPierce = DB.getValue(node, "pierce", "") == "yes";
+	rWeapon.sWeaponType = DB.getValue(node, "weapontype", "");
 
 	if rWeapon.bPierce then
 		rWeapon.nPierceAmount = DB.getValue(node, "pierceamount", 0);	

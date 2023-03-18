@@ -35,6 +35,7 @@ function getRoll(rActor, rAction)
 	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
 	RollManagerCPP.encodeCost(rAction, rRoll);
+	RollManagerCPP.encodeWeaponType(rAction, rRoll);
 
 	return rRoll;
 end
@@ -45,6 +46,7 @@ function modRoll(rSource, rTarget, rRoll)
 	local nEffort = RollManagerCPP.decodeEffort(rRoll, true) or 0;
 	local bInability, bTrained, bSpecialized = RollManagerCPP.decodeTraining(rRoll, true);
 	local nLevel = RollManagerCPP.decodeLevel(rRoll); -- Don't need to persist here
+	local sWeaponType = RollManagerCPP.decodeWeaponType(rRoll); -- Don't persist
 
 	local bEffects = false;
 	local nDiffEffects = 0; -- Keep track of the roll's difficulty changes via effects
@@ -85,6 +87,11 @@ function modRoll(rSource, rTarget, rRoll)
 		nRollEffects = nRollEffects + nAttackEffect % 3;
 
 		rRoll.nDifficulty = rRoll.nDifficulty - nDiffMod;
+	end
+
+	-- Adjust difficulty based on weapon type (ease light weapons by 1 step)
+	if sWeaponType == "light" then
+		rRoll.nDifficulty = rRoll.nDifficulty - 1;
 	end
 
 	-- Adjust the roll based on the level

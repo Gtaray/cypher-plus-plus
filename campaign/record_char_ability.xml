@@ -44,6 +44,14 @@
 		</sheetdata>
 	</windowclass>
 
+	<windowclass name="power_action" merge="join">
+		<sheetdata>
+			<button_ireorder name="ireorder" mergerule="resetandadd">
+				<editmode>abilitylist_iedit</editmode>
+			</button_ireorder>
+		</sheetdata>
+	</windowclass>
+
 	<windowclass name="ability_main">
 		<script>
 			function onInit()
