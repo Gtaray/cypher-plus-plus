@@ -28,6 +28,7 @@
 		<script name="EffectManagerCPP" file="scripts/manager_effect_cpp.lua" />
 		<script name="RollManagerCPP" file="scripts/manager_roll_cpp.lua" />
 		<script name="PromptManager" file="scripts/manager_prompt.lua" />
+		<script name="CombatManagerCPP" file="scripts/manager_combat_cpp.lua" />
 
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />

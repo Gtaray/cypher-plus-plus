@@ -15,7 +15,7 @@ function buildPCRollInfo(nodeActor, sDesc, sStat)
 
 	tInfo.nEdge = (tInfo.nEdge or 0) + nEdgeBonus;
 
-	if nEdgeEffectCount > 0 then
+	if (nEdgeEffectCount or 0) > 0 then
 		tInfo.sDesc = tInfo.sDesc .. " [EFFECTS]"
 	end
 
@@ -27,7 +27,7 @@ function spendPointsForRoll(nodeActor, tInfo)
 		return false;
 	end
 	
-	if tInfo.nCost <= 0 then
+	if (tInfo.nCost or 0) <= 0 then
 		return true;
 	end
 

@@ -201,33 +201,33 @@ function onRoll(rSource, rTarget, rRoll)
 	local bSuccess, bAutomaticSuccess = RollManagerCPP.processRollSuccesses(rSource, rTarget, rRoll, rMessage, aAddIcons);
 	if rTarget and not ActorManager.isPC(rTarget) then
 		local sIcon = "";
-			if bSuccess then
-				if bAutomaticSuccess then
-					rMessage.text = rMessage.text .. " [AUTOMATIC HIT]";
-				else
-					rMessage.text = rMessage.text .. " [HIT]";
-				end
-				if nFirstDie >= 17 then
-					sIcon = "roll_attack_crit";
-				else
-					sIcon = "roll_attack_hit";
-				end
+		if bSuccess then
+			if bAutomaticSuccess then
+				rMessage.text = rMessage.text .. " [AUTOMATIC HIT]";
 			else
-				rMessage.text = rMessage.text .. " [MISS]";
-
-				if nFirstDie == 1 then
-					sIcon = "roll_attack_crit_miss";
-				else
-					sIcon = "roll_attack_miss";
-				end
+				rMessage.text = rMessage.text .. " [HIT]";
 			end
-
-			-- If we have multiple icons, replace the first.
-			if type(rMessage.icon) == table then
-				rMessage.icon[1] = sIcon
+			if nFirstDie >= 17 then
+				sIcon = "roll_attack_crit";
 			else
-				rMessage.icon = sIcon;
+				sIcon = "roll_attack_hit";
 			end
+		else
+			rMessage.text = rMessage.text .. " [MISS]";
+
+			if nFirstDie == 1 then
+				sIcon = "roll_attack_crit_miss";
+			else
+				sIcon = "roll_attack_miss";
+			end
+		end
+
+		-- If we have multiple icons, replace the first.
+		if type(rMessage.icon) == "table" then
+			rMessage.icon[1] = sIcon
+		else
+			rMessage.icon = sIcon;
+		end
 	end
 	
 	Comm.deliverChatMessage(rMessage);

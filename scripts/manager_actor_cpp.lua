@@ -2,9 +2,12 @@
 -- NPCs
 ---------------------------------------------------------------
 function getCreatureLevel(rCreature)
-	local creatureNode = ActorManager.getCTNode(rCreature);
-	if not creatureNode then
-		creatureNode = ActorManager.getCreatureNode(rCreature);
+	local creatureNode = rCreature;
+	if type(rCreature) ~= "databasenode" then
+		creatureNode = ActorManager.getCTNode(rCreature);
+		if not creatureNode then
+			creatureNode = ActorManager.getCreatureNode(rCreature);
+		end
 	end
 
 	if not creatureNode then

@@ -440,8 +440,13 @@ function calculateDamageResistances(rSource, rTarget, nDamage, sDamageType, sDam
 	end
 
 	local bResist, nResistAmount = ActorManagerCPP.isResistant(rTarget, rSource, {sDamageType, sDamageStat})
-	if bResist and nResistAmount > 0 then
-		nDamage = math.max(0, nDamage - nResistAmount);
+	if bResist and nResistAmount >= 0 then
+		-- Resist half if amount is 0, otherwise flat reduction
+		if nResistAmount == 0 then
+			nDamage = math.floor(nDamage / 2);
+		else
+			nDamage = math.max(0, nDamage - nResistAmount);
+		end
 		if nDamage > 0 then
 			table.insert(aNotifications, "[PARTIALLY RESISTED]")
 		else
@@ -450,8 +455,12 @@ function calculateDamageResistances(rSource, rTarget, nDamage, sDamageType, sDam
 	end
 
 	local bVuln, nVulnAmount = ActorManagerCPP.isVulnerable(rTarget, rSource, {sDamageType, sDamageStat});
-	if bVuln and nVulnAmount > 0 then
-		nDamage = nDamage + nVulnAmount;
+	if bVuln and nVulnAmount >= 0 then
+		if nVulnAmount == 0 then
+			nDamage = nDamage * 2;
+		else
+			nDamage = nDamage + nVulnAmount;
+		end
 		table.insert(aNotifications, "[VULNERABLE]");
 	end
 
