@@ -76,7 +76,6 @@ end
 function isImmune(rActor, rTarget, aDmgTypes)
 	local tImmune = ActorManagerCPP.getImmunities(rActor, rTarget);
 	local bImmune = ActorManagerCPP.resistanceCheckerHelper(tImmune, aDmgTypes);
-
 	return bImmune;
 end
 
@@ -118,13 +117,16 @@ function getDamageMods(rActor, sFilter, rTarget)
 	-- Start by getting values from the creature node
 	for _, node in ipairs(DB.getChildList(charNode, "resistances")) do
 		local sType = DB.getValue(node, "type", "");
-		if sType == sFilter then
-			local sDamageType = DB.getValue(node, "damagetype", "");
+		if sType:lower() == sFilter:lower() then
+			local sDamageType = DB.getValue(node, "damagetype", ""):lower();
 			local nAmount = DB.getValue(node, "amount", 0);
 
-			if DamageTypeManager.isDamageType(sDamageType) then
-				tDmgMods[sDamageType] = nAmount;
-			end
+			-- Don't care if it's assigned or not.
+			-- if DamageTypeManager.isDamageType(sDamageType) then
+				
+			-- end
+
+			tDmgMods[sDamageType] = nAmount;
 		end
 	end
 
@@ -154,7 +156,7 @@ function resistanceCheckerHelper(tDmgMods, aDmgTypes)
 	end
 
 	for _, sType in ipairs(aDmgTypes) do
-		if tDmgMods[sType] and tDmgMods[sType] > 0 then 
+		if tDmgMods[sType] and tDmgMods[sType] >= 0 then 
 			return true, tDmgMods[sType];
 		end
 	end

@@ -31,6 +31,11 @@ function spendPointsForRoll(nodeActor, tInfo)
 		return true;
 	end
 
+	-- If we have a stat, but not a cost stat, then se them to match
+	if (tInfo.sCostStat or "") == "" and (tInfo.sStat or "") ~= "" then
+		tInfo.sCostStat = tInfo.sStat;
+	end
+
 	if tInfo.sCostStat == "" then
 		local rActor = ActorManager.resolveActor(nodeActor);
 		local rMessage = ChatManager.createBaseMessage(rActor);
@@ -203,6 +208,8 @@ function addWoundedToAction(rActor, rAction)
 end
 
 function calculateEffortCost(rActor, rAction)
+	rAction.bUsedEdge = false;
+	
 	local nWounded = 0;
 	if rAction.bWounded then
 		nWounded = 1;
@@ -220,6 +227,7 @@ function calculateEffortCost(rActor, rAction)
 	if ((rAction.nCost or 0) > 0) and ((rAction.nEdge or 0) > 0) then
 		if not rAction.bDisableEdge then
 			rAction.nCost = rAction.nCost - rAction.nEdge;
+			rAction.bUsedEdge = true;
 		end
 	end
 
@@ -314,7 +322,7 @@ end
 function encodeEdge(rAction, rRoll)
 	if rAction.bEdgeDisabled then
 		rRoll.sDesc = string.format("%s [EDGE DISABLED]", rRoll.sDesc);
-	elseif rAction.nEdge > 0 then
+	elseif rAction.bUsedEdge then
 		rRoll.sDesc = string.format("%s [APPLIED %s EDGE]", rRoll.sDesc, rAction.nEdge);
 	end
 end

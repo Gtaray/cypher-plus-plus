@@ -52,8 +52,9 @@ function onCostDoubleClicked()
 	local node = getDatabaseNode();
 	local nodeActor = DB.getChild(node, "...");
 	local rAction = {
-		label = string.format("[COST] %s", name.getValue()),
+		sDesc = string.format("[COST] %s", name.getValue()),
 		nCost = statcost.getValue(),
+		sStat = stat.getValue(),
 		sCostStat = stat.getValue(),
 		nEffort = 0,
 		nAssets = 0,
@@ -62,8 +63,13 @@ function onCostDoubleClicked()
 
 	RollManagerCPP.addEffortToAction(nodeActor, rAction, "cost");
 	RollManagerCPP.calculateEffortCost(nodeActor, rAction);
+	RollManagerCPP.encodeEdge(rAction, rAction);
 
-	if RollManager.spendPointsForRoll(nodeActor, rAction) then
+	-- Jank. We encode to sDesc, then set label to match the encoded result
+	-- because encodeEdge requires rRoll.sDesc, and spendPointsForRoll requires label
+	rAction.label = rAction.sDesc;
+
+	if RollManagerCPP.spendPointsForRoll(nodeActor, rAction) then
 		local rMessage = ChatManager.createBaseMessage(nodeActor);
 		rMessage.text = rAction.label;
 		rMessage.icon = "action_damage";

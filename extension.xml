@@ -3,7 +3,7 @@
 	<announcement text="Loaded Cypher++ v1.0.1" font="emotefont" />
 	<properties>
 		<name>Cypher++</name>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<author>Saagael</author>
 		<description>Collection of enhancements for the Cypher ruleset</description>
 		<loadorder>90</loadorder>
@@ -15,6 +15,7 @@
 		<includefile source="campaign/record_char_attack.xml" />
 		<includefile source="campaign/record_power.xml" />
 		<includefile source="campaign/record_npc.xml" />
+		<includefile source="campaign/record_item.xml" />
 		<includefile source="campaign/template_char.xml" />
 		<includefile source="common/damagetype_templates.xml" />
 		<includefile source="common/common_templates.xml" />
@@ -29,6 +30,7 @@
 		<script name="RollManagerCPP" file="scripts/manager_roll_cpp.lua" />
 		<script name="PromptManager" file="scripts/manager_prompt.lua" />
 		<script name="CombatManagerCPP" file="scripts/manager_combat_cpp.lua" />
+		<script name="ItemManagerCPP" file="scripts/manager_item_cpp.lua" />
 
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />

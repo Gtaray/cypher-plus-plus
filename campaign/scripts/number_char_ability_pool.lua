@@ -32,7 +32,11 @@ function action(draginfo)
 		return;
 	end
 
-	local rAction = { sStat = sStat }
+	local rAction = { 
+		label = StringManager.capitalize(sStat),
+		sStat = sStat 
+	}
+
 	local rActor = ActorManager.resolveActor(window.getDatabaseNode())
 	ActionStatCPP.performRoll(draginfo, rActor, rAction);
 end

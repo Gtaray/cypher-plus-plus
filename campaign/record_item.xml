@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+	<windowclass name="item_main" merge="join">
+		<script>
+			local _fUpdate;
+			function onInit()
+				_fUpdate = super.update;
+				super.update = update;
+
+				update();
+			end
+			function update()
+				_fUpdate();
+
+				local nodeRecord = getDatabaseNode();
+				local sType = DB.getValue(nodeRecord, "type", "");
+				local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+				local bID = LibraryData.getIDState("item", nodeRecord);
+				local bCypher = (sType == "cypher");
+
+				WindowManager.callSafeControlUpdate(self, "levelroll", bReadOnly, not bCypher or (not (bID or Sesion.IsHost)));
+			end
+		</script>
+		<sheetdata>
+			<label_column name="levelroll_label" insertbefore="level_label">
+				<static textres="item_label_levelroll" />
+			</label_column>
+			<string_columnh name="levelroll" insertbefore="level_label">
+				<default>1d6</default>
+			</string_columnh>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -97,6 +97,8 @@
 	<string name="npc_resistances_vulnerability">Vulnerability</string>
 	<string name="npc_header_actions">Actions</string>
 
+	<string name="item_label_levelroll">Level Roll</string>
+
 
 	<string name="label_training_inability">Inability</string>
 	<string name="label_training_trained">Trained</string>

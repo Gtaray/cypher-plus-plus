@@ -29,7 +29,7 @@ function getRoll(rActor, rAction)
 	rRoll.sType = "stat";
 	rRoll.aDice = { "d20" };
 	rRoll.nMod = rAction.nModifier or 0;
-	rRoll.sDesc = string.format("[STAT] %s", rAction.sStat or "");
+	rRoll.sDesc = string.format("[STAT] %s", rAction.label or "");
 
 	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
