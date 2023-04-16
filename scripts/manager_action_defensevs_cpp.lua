@@ -27,7 +27,7 @@ function getRoll(rActor, rAction)
 
 	rRoll.sDesc = string.format(
 		"[ATTACK (%s, %s)] %s", 
-		rAction.sAttackRange, 
+		rAction.sAttackRange or "", 
 		rAction.sStat, 
 		rAction.label);
 

@@ -8,11 +8,10 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	ActionSkillCPP.applyEffort(rActor, rAction);
-	local rRoll = ActionSkillCPP.getRoll(rActor, rAction);
-
 	local bCanRoll = RollManager.spendPointsForRoll(ActorManager.getCreatureNode(rActor), rAction);
 
 	if bCanRoll then
+		local rRoll = ActionSkillCPP.getRoll(rActor, rAction);
 		ActionsManager.performAction(draginfo, rActor, rRoll);
 	end
 end

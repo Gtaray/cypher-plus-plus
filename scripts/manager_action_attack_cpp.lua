@@ -5,11 +5,11 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	ActionAttackCPP.applyEffort(rActor, rAction);
-	local rRoll = ActionAttackCPP.getRoll(rActor, rAction);
 
 	local bCanRoll = RollManager.spendPointsForRoll(ActorManager.getCreatureNode(rActor), rAction);
 
 	if bCanRoll then
+		local rRoll = ActionAttackCPP.getRoll(rActor, rAction);
 		ActionsManager.performAction(draginfo, rActor, rRoll);
 	end
 end
@@ -136,7 +136,7 @@ function modRoll(rSource, rTarget, rRoll)
 	   (sStat == "speed" and EffectManager.hasCondition(rSource, "Frostbitten")) or
 	   (sStat == "intellect" and EffectManager.hasCondition(rSource, "Confused")) then
 		bEffects = true;
-		nDiffMod = nDiffMod + 1;
+		nDiffEffects = nDiffEffects + 1;
 		rRoll.nDifficulty = rRoll.nDifficulty + 1;
 	end
 	if EffectManager.hasCondition(rTarget, "Dazed") or 
@@ -144,7 +144,7 @@ function modRoll(rSource, rTarget, rRoll)
 		(sStat == "speed" and EffectManager.hasCondition(rTarget, "Frostbitten")) or
 		(sStat == "intellect" and EffectManager.hasCondition(rTarget, "Confused"))then
 		bEffects = true;
-		nDiffMod = nDiffMod - 1;
+		nDiffEffects = nDiffEffects - 1;
 		rRoll.nDifficulty = rRoll.nDifficulty - 1;
 	end
 

@@ -12,6 +12,7 @@ function action(draginfo)
 	local nodeActor = window.getDatabaseNode()
 	local rActor = ActorManager.resolveActor(nodeActor);
 	local rAction = {};
+	rAction.label = StringManager.capitalize(sStat);
 	rAction.sStat = sStat;
 	rAction.nTraining = DB.getValue(nodeActor, "abilities." .. sStat .. ".def.training", 1)
 	rAction.nAssets = DB.getValue(nodeActor, "abilities." .. sStat .. ".def.asset", 0);

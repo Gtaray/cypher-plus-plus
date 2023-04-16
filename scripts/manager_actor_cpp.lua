@@ -133,6 +133,10 @@ function getDamageMods(rActor, sFilter, rTarget)
 	-- Then get values from effects
 	local aEffects = EffectManagerCPP.getEffectsByType(rActor, sFilter, rTarget);
 	for _,v in pairs(aEffects) do
+		-- If there's no type specified, then set it to all
+		if #(v.remainder) == 0 then
+			tDmgMods["all"] = (tDmgMods["all"] or 0) + v.mod
+		end
 		for _,vType in pairs(v.remainder) do
 			if tDmgMods[vType] then
 				-- Merge the mods

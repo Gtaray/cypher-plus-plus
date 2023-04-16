@@ -16,6 +16,7 @@
 		<includefile source="campaign/record_power.xml" />
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/record_item.xml" />
+		<includefile source="campaign/record_ability.xml" />
 		<includefile source="campaign/template_char.xml" />
 		<includefile source="common/damagetype_templates.xml" />
 		<includefile source="common/common_templates.xml" />
@@ -32,6 +33,7 @@
 		<script name="CombatManagerCPP" file="scripts/manager_combat_cpp.lua" />
 		<script name="ItemManagerCPP" file="scripts/manager_item_cpp.lua" />
 
+		<script name="CPP" file="scripts/cpp.lua" />
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />
 		<script name="ActionSkillCPP" file="scripts/manager_action_skill_cpp.lua" />

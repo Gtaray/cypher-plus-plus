@@ -91,6 +91,10 @@
 	<string name="power_tooltip_effect">EFFECT</string>
 	<string name="power_tooltip_duration">DURATION</string>
 
+	<string name="library_recordtype_label_ability">Abilities</string>
+	<string name="library_recordtype_empty_ability">&#171; New Ability &#187;</string>
+	<string name="ref_label_type">Type</string>
+
 	<string name="npc_header_resistances">Resistances &amp; Vulnerabilities</string>
 	<string name="npc_resistances_resistance">Resistance</string>
 	<string name="npc_resistances_immunity">Immunity</string>
@@ -98,7 +102,6 @@
 	<string name="npc_header_actions">Actions</string>
 
 	<string name="item_label_levelroll">Level Roll</string>
-
 
 	<string name="label_training_inability">Inability</string>
 	<string name="label_training_trained">Trained</string>
@@ -108,7 +111,7 @@
 	<string name="error_defense_state_target_not_on_ct">Error: Could not set defense state. Target is not on the combat tracker</string>
 
 	<!-- Defense Prompt -->
-	<string name="defense_prompt_window_title">Defense Thyself</string>
+	<string name="defense_prompt_window_title">Defend Thyself</string>
 	<string name="defense_prompt_button_roll">Roll</string>
 	<string name="defense_prompt_description">%s is attacking you, defend yourself with %s!\nDifficulty: %s</string>
 </root>

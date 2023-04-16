@@ -8,11 +8,10 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	ActionDefenseCPP.applyEffort(rActor, rAction);
-	local rRoll = ActionDefenseCPP.getRoll(rActor, rAction);
-
 	local bCanRoll = RollManager.spendPointsForRoll(ActorManager.getCreatureNode(rActor), rAction);
 
 	if bCanRoll then
+		local rRoll = ActionDefenseCPP.getRoll(rActor, rAction);
 		ActionsManager.performAction(draginfo, rActor, rRoll);
 	end
 end
@@ -29,14 +28,14 @@ function getRoll(rActor, rAction)
 	rRoll.sType = "defense";
 	rRoll.aDice = { "d20" };
 	rRoll.nMod = rAction.nModifier or 0;
-	rRoll.sDesc = string.format("[DEFENSE] %s", StringManager.capitalize(rAction.sStat or ""));
+	rRoll.sDesc = string.format("[DEFENSE] %s", rAction.label);
 	rRoll.nDifficulty = rAction.nDifficulty or 0;
 
 	RollManagerCPP.encodeStat(rAction, rRoll);
-	RollManagerCPP.encodeTraining(rAction, rRoll);
 	RollManagerCPP.encodeAssets(rAction, rRoll);
 	RollManagerCPP.encodeEdge(rAction, rRoll);
 	RollManagerCPP.encodeEffort(rAction, rRoll);
+	RollManagerCPP.encodeTraining(rAction, rRoll);
 
 	if rAction.rTarget then
 		local sTarget = ActorManager.getCTNodeName(rAction.rTarget)
@@ -153,6 +152,8 @@ function modRoll(rSource, rTarget, rRoll)
 	-- If a PC is attacking a PC, then instead of reducing difficulty, we add a mod of 3 per difficulty reduction
 	if rTarget and ActorManager.isPC(rTarget) then
 		rRoll.nMod = rRoll.nMod + (nFinalDiffMod * -3); -- negative 3 because we want to increase the mod for every difficulty reduction. So we need to invert
+	else
+		rRoll.nDifficulty = rRoll.nDifficulty + nFinalDiffMod;
 	end
 end
 

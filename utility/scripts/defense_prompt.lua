@@ -36,6 +36,7 @@ end
 
 function roll()
 	local rAction = {};
+	rAction.label = StringManager.capitalize(self.sStat)
 	rAction.sStat = self.sStat;
 	rAction.nDifficulty = self.nDifficulty
 	rAction.rTarget = rAttacker;

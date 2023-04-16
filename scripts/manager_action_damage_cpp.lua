@@ -7,7 +7,6 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	ActionDamageCPP.applyEffort(rActor, rAction);
-	local rRoll = getRoll(rActor, rAction);
 
 	local bCanRoll = false;
 	if ActorManager.isPC(rActor) then
@@ -17,6 +16,7 @@ function performRoll(draginfo, rActor, rAction)
 	end
 
 	if bCanRoll then
+		local rRoll = getRoll(rActor, rAction);
 		ActionsManager.performAction(draginfo, rActor, rRoll);
 	end
 end
@@ -37,7 +37,7 @@ end
 function getRoll(rActor, rAction)
 	local rRoll = {}
 	rRoll.sType = "damage"
-	rRoll.sDesc = string.format("[DAMAGE (%s, %s)] %s", rAction.sDamageType, rAction.sStatDamage, rAction.label or "");
+	rRoll.sDesc = string.format("[DAMAGE (%s, %s)] %s", rAction.sDamageType or "", rAction.sStatDamage, rAction.label or "");
 	rRoll.aDice = { };
 	rRoll.nMod = rAction.nDamage;
 
