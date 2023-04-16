@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root version="3.3" release="1.0">
-	<announcement text="Loaded Cypher++ v1.0.3" font="emotefont" />
+	<announcement text="Loaded Cypher++ v1.0.4" font="emotefont" />
 	<properties>
 		<name>Cypher++</name>
-		<version>1.0.3</version>
+		<version>1.0.4</version>
 		<author>Saagael</author>
 		<description>Collection of enhancements for the Cypher ruleset</description>
 		<loadorder>90</loadorder>
@@ -33,7 +33,6 @@
 		<script name="CombatManagerCPP" file="scripts/manager_combat_cpp.lua" />
 		<script name="ItemManagerCPP" file="scripts/manager_item_cpp.lua" />
 
-		<script name="CPP" file="scripts/cpp.lua" />
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />
 		<script name="ActionSkillCPP" file="scripts/manager_action_skill_cpp.lua" />
