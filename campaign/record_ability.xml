@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="reference_ability">
+        <frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if contents.subwindow then
+					contents.subwindow.update();
+				end
+			end
+		</script>
+		<sheetdata>
+			<hs name="type" />
+
+			<sub_record_header name="header">
+				<class>ability_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />
+			<subwindow_record name="contents">
+				<class>ability_main</class>
+				<activate />
+			</subwindow_record>
+			<scrollbar_record>
+				<target>contents</target>
+			</scrollbar_record>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+    </windowclass>
+
+    <windowclass name="ability_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>ref_ability</class>
+			</link_record_header>
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ability_main">
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				description.setReadOnly(bReadOnly);
+				type.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="type_label">
+				<static textres="ref_label_type" />
+			</label_column>
+			<string_columnh name="type" />
+
+			<ft_columnh name="description" />
+		</sheetdata>
+	</windowclass>
+</root>

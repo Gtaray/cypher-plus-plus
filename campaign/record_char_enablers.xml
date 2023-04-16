@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+	<windowclass name="char_enablers">
+		<margins control="0,0,0,2" />
+	</windowclass>
+</root>
