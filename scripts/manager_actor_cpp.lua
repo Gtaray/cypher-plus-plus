@@ -39,9 +39,8 @@ function getMaxEffort(rActor, sStat, sRollType)
 	end
 
 	local nBase = DB.getValue(nodeActor, "effort", 0);
-
 	local nEffectMaxEffort = EffectManagerCPP.getEffectsBonusByType(rActor, "MAXEFF", { sStat, sRollType });
-
+	
 	return nBase + nEffectMaxEffort;
 end
 

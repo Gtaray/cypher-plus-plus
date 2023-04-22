@@ -22,29 +22,30 @@ Cypher++ is a grab-bag collection of features I wanted for my own game. It is de
 
 * Added a comprehensive list of effects to support all the ways characters can have their rolls modified.
 
-| Effect | Value  | Descriptors                | Notes                                                                       |
-|--------|--------|----------------------------|-----------------------------------------------------------------------------|
-| ASSET  | Number | [roll type] [stat] [skill] | Adds an asset to the roll. Capped at 2                                      |
-| EDGE   | Number | [roll type] [stat]         | Adjusts a character's Edge                                                  |
-| MAXEFF | Number | [roll type] [stat]         | Adjusts the maximum effort that can be applied                              |
-| STAT   | Number | [stat]                     | Adds a flat number to stat rolls*                                           |
-| SKILL  | Number | [stat] [skill]             | Adds a flat number to skill rolls*                                          |
-| ATK    | Number | [stat]                     | Adds a flat number to attack rolls*                                         |
-| DEF    | Number | [stat]                     | Adds a flat number to defense rolls*                                        |
-| DMG    | Number | [stat] [damage type]       | Adds a flat amount to damage rolls*                                         |
-| RESIST | Number | [damage type]              | Flat damage reduction for the specified damage type                         |
-| VULN   | Number | [damage type]              | Flat damage increase for the specified damage type                          |
-| IMMUNE | Number | [damage type]              | Takes 0 damage of the specified type                                        |
-| ARMOR  | Number |                            | Increases armor                                                             |
-| EASE   | -      | [roll type] [stat] [skill] | Eases the difficulty of a roll                                              |
-| HINDER | -      | [roll type] [stat] [skill] | Hinders the difficulty of a roll                                            |
-| COST   | Number | [stat] armor               | Modifies the amount of a stat pool paid to activate abilities, apply effort |
-| LEVEL  | Number | [roll type] [stat]         | Modifies the level of an NPC, which affects their difficulty                |
-| PIERCE | Number | [damage type]              | Causes damage dealt to bypass an amount of armor (normal armor rules apply) |
+| Effect | Value  | Descriptors                | Notes                                                                                |
+|--------|--------|----------------------------|--------------------------------------------------------------------------------------|
+| ASSET  | Number | [roll type] [stat] [skill] | Adds an asset to the roll. Capped at 2                                               |
+| EDGE   | Number | [roll type] [stat]         | Adjusts a character's Edge                                                           |
+| MAXEFF | Number | [roll type] [stat]         | Adjusts the maximum effort that can be applied                                       |
+| EFFECT | Number | [roll type] [stat] [skill] | Applies a free level of effort to a roll. Limited by the character's maximum effort. |
+| STAT   | Number | [stat]                     | Adds a flat number to stat rolls*                                                    |
+| SKILL  | Number | [stat] [skill]             | Adds a flat number to skill rolls*                                                   |
+| ATK    | Number | [stat]                     | Adds a flat number to attack rolls*                                                  |
+| DEF    | Number | [stat]                     | Adds a flat number to defense rolls*                                                 |
+| DMG    | Number | [stat] [damage type]       | Adds a flat amount to damage rolls*                                                  |
+| RESIST | Number | [damage type]              | Flat damage reduction for the specified damage type                                  |
+| VULN   | Number | [damage type]              | Flat damage increase for the specified damage type                                   |
+| IMMUNE | Number | [damage type]              | Takes 0 damage of the specified type                                                 |
+| ARMOR  | Number |                            | Increases armor                                                                      |
+| EASE   | -      | [roll type] [stat] [skill] | Eases the difficulty of a roll                                                       |
+| HINDER | -      | [roll type] [stat] [skill] | Hinders the difficulty of a roll                                                     |
+| COST   | Number | [stat] armor               | Modifies the amount of a stat pool paid to activate abilities, apply effort          |
+| LEVEL  | Number | [roll type] [stat]         | Modifies the level of an NPC, which affects their difficulty                         |
+| PIERCE | Number | [damage type]              | Causes damage dealt to bypass an amount of armor (normal armor rules apply)          |
 
 * [roll type] = stat, skill, attack/atk, defense/def
 * [stat] = might, speed, intellect
-* [skill] = any skill name
+* [skill] = any skill name that is a single word (does not work for skill names with spaces in them)
 * [damage type] = any damage type
 * \* If a roll has a modifier greater than 3, it will be converted to the appropriate difficulty reduction.
 

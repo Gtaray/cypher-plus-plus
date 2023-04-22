@@ -117,7 +117,16 @@ function modRoll(rSource, rTarget, rRoll)
 	RollManagerCPP.encodeEaseHindrance(rRoll, bEase, bHinder);
 
 	-- Adjust difficulty based on effort
-	rRoll.nDifficulty = rRoll.nDifficulty - nEffort;
+	local nEffortEffect = EffectManagerCPP.getEffectsBonusByType(rSource, { "EFFORT", "EFF" }, { sStat, "attack", "atk" }, rTarget);
+	local nMaxEffort = ActorManagerCPP.getMaxEffort(rSource, sStat, "attack");
+	local nEffortEffectApplied = math.min(nEffortEffect, nMaxEffort - nEffort); -- This calculates how much effect modified the effort applied to the roll
+
+	-- If the effort effect actually modified the amount of effort applied to this roll, state that
+	if nEffortEffectApplied > 0 then
+		bEffects = true;
+		nDiffEffects = nDiffEffects - nEffortEffectApplied;
+		rRoll.nDifficulty = rRoll.nDifficulty - nEffortEffectApplied;
+	end
 
 	-- Adjust difficulty based on training
 	if bInability then

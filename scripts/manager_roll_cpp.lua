@@ -351,8 +351,13 @@ function encodeEffects(rRoll, nDiffMod, nRollMod, bIncludeEffects)
 
 	if bIncludeEffects then
 		rRoll.sDesc = string.format("%s [EFFECTS", rRoll.sDesc);
-		if nDiffMod ~= 0 or nRollMod ~= 0 then
+
+		-- Only show the #/# format if the roll was modified.
+		-- Otherwise only show one number if only the difficulty was modified
+		if nRollMod ~= 0 then
 			rRoll.sDesc = string.format("%s %s/%s]", rRoll.sDesc, nDiffMod, nRollMod);
+		elseif nDiffMod ~= 0 then
+			rRoll.sDesc = string.format("%s %s]", rRoll.sDesc, nDiffMod);
 		else
 			rRoll.sDesc = rRoll.sDesc .. "]";
 		end

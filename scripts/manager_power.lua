@@ -421,8 +421,9 @@ function performNpcAction(draginfo, rActor, rAction)
 	elseif rAction.type == "damage" then
 		ActionDamageCPP.performRoll(draginfo, rActor, rAction);
 	elseif rAction.type == "heal" then
+		ActionHealCPP.performRoll(draginfo, rActor, rAction);
 	elseif rAction.type == "effect" then
-
+		ActionEffect.performRoll(draginfo, rActor, rAction);
 	end
 	return true;
 end

@@ -234,7 +234,11 @@ function applyDamage(rSource, rTarget, bSecret, sRollType, sDamage, nTotal)
 
 		-- Report positive values only
 		nTotal = math.abs(nTotal);
-		msgLong.text = string.format("[%s healing (%s)]", nTotal, sStat)
+		msgLong.text = string.format("[%s healing", nTotal)
+		if (sStat or "") ~= "" then
+			msgLong.text = string.format("%s %s", msgLong.text, sStat)
+		end
+		msgLong.text = string.format("%s]", msgLong.text)
 	else
 		msgShort.icon = "roll_damage";
 		msgLong.icon = "roll_damage";

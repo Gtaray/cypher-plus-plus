@@ -39,7 +39,7 @@ function getRoll(rActor, rAction)
 end
 
 function modRoll(rSource, rTarget, rRoll)
-	local sStat = rRoll.sDesc:match("[STAT] (%w-)");
+	local sStat = rRoll.sDesc:match("%[STAT%] (%w+)");
 	local nEffort = RollManagerCPP.decodeEffort(rRoll, true) or 0;
 	local nAssets = RollManagerCPP.decodeAssets(rRoll) or 0;
 
@@ -101,7 +101,16 @@ function modRoll(rSource, rTarget, rRoll)
 	RollManagerCPP.encodeEaseHindrance(rRoll, bEase, bHinder);
 
 	-- Adjust difficulty based on effort
-	rRoll.nDifficulty = rRoll.nDifficulty - nEffort;
+	local nEffortEffect = EffectManagerCPP.getEffectsBonusByType(rSource, { "EFFORT", "EFF" }, { sStat, "stat" }, rTarget);
+	local nMaxEffort = ActorManagerCPP.getMaxEffort(rSource, sStat, "stat");
+	local nEffortEffectApplied = math.min(nEffortEffect, nMaxEffort - nEffort); -- This calculates how much effect modified the effort applied to the roll
+
+	-- If the effort effect actually modified the amount of effort applied to this roll, state that
+	if nEffortEffectApplied > 0 then
+		bEffects = true;
+		nDiffEffects = nDiffEffects - nEffortEffectApplied;
+		rRoll.nDifficulty = rRoll.nDifficulty - nEffortEffectApplied;
+	end
 
 	-- Dazed doesn't stack with the other conditions
 	if EffectManager.hasCondition(rSource, "Dazed") or 
