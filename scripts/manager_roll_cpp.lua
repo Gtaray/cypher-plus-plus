@@ -56,9 +56,9 @@ function spendPointsForRoll(nodeActor, tInfo)
 	tInfo.label = tInfo.label .. string.format(" [SPENT %d FROM %s POOL]", tInfo.nCost, Interface.getString(tInfo.sCostStat):upper());
 
 	-- This is only here because effects use sName instead of label, and we want to display it there too
-	if tInfo.sName then
-		tInfo.sName = tInfo.sName .. string.format(" [SPENT %d FROM %s POOL]", tInfo.nCost, Interface.getString(tInfo.sCostStat):upper());
-	end
+	-- if tInfo.sName then
+	-- 	tInfo.sName = tInfo.sName .. string.format(" [SPENT %d FROM %s POOL]", tInfo.nCost, Interface.getString(tInfo.sCostStat):upper());
+	-- end
 
     local nNewPool = nCurrentPool - tInfo.nCost;
 	DB.setValue(nodeActor, "abilities." .. tInfo.sCostStat .. ".current", "number", nNewPool);
@@ -320,7 +320,7 @@ function decodeDamageType(vRoll)
 end
 
 function encodeEdge(rAction, rRoll)
-	if rAction.bEdgeDisabled then
+	if rAction.bDisableEdge then
 		rRoll.sDesc = string.format("%s [EDGE DISABLED]", rRoll.sDesc);
 	elseif rAction.bUsedEdge then
 		rRoll.sDesc = string.format("%s [APPLIED %s EDGE]", rRoll.sDesc, rAction.nEdge);

@@ -59,6 +59,10 @@
 			end
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				useequipped.setReadOnly(bReadOnly);
+				statcost.setReadOnly(bReadOnly);
+				stat.setReadOnly(bReadOnly);
+				period.setReadOnly(bReadOnly);
 				ftdesc.setReadOnly(bReadOnly);
 			end
 		</script>

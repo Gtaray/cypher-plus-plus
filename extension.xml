@@ -16,7 +16,6 @@
 		<includefile source="campaign/record_power.xml" />
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/record_item.xml" />
-		<includefile source="campaign/record_ability.xml" />
 		<includefile source="campaign/template_char.xml" />
 		<includefile source="common/damagetype_templates.xml" />
 		<includefile source="common/common_templates.xml" />
@@ -42,6 +41,7 @@
 		<script name="ActionDamageCPP" file="scripts/manager_action_damage_cpp.lua" />
 		<script name="ActionHealCPP" file="scripts/manager_action_heal_cpp.lua" />
 		<script name="ActionRecoveryCPP" file="scripts/manager_action_recovery_cpp.lua" />
+		<script name="ActionEffectCPP" file="scripts/manager_action_effect_cpp.lua" />
 
 		<!-- STRINGS -->
 		<includefile source="strings/cpp_strings.xml" />
