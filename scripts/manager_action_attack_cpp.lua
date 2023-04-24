@@ -125,8 +125,9 @@ function modRoll(rSource, rTarget, rRoll)
 	if nEffortEffectApplied > 0 then
 		bEffects = true;
 		nDiffEffects = nDiffEffects - nEffortEffectApplied;
-		rRoll.nDifficulty = rRoll.nDifficulty - nEffortEffectApplied;
 	end
+
+	rRoll.nDifficulty = rRoll.nDifficulty - nEffort - nEffortEffectApplied;
 
 	-- Adjust difficulty based on training
 	if bInability then
@@ -173,7 +174,7 @@ function onRoll(rSource, rTarget, rRoll)
 	local bInability, bTrained, bSpecialized = RollManagerCPP.decodeTraining(rRoll, bPersist);
 	local nAssets = RollManagerCPP.decodeAssets(rRoll, bPersist) or 0;
 	local nEffort = RollManagerCPP.decodeEffort(rRoll, true) or 0;
-	local nCost = RollManagerCPP.decodeCost(rRoll, bPersist) or 0;
+	local nCost = RollManagerCPP.decodeCost(rRoll, false) or 0; -- We don't need to display cost in the message
 	local nTotal = ActionsManager.total(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);

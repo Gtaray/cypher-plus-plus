@@ -112,8 +112,9 @@ function modRoll(rSource, rTarget, rRoll)
 	if nEffortEffectApplied > 0 then
 		bEffects = true;
 		nDiffEffects = nDiffEffects - nEffortEffectApplied;
-		rRoll.nDifficulty = rRoll.nDifficulty - nEffortEffectApplied;
 	end
+
+	rRoll.nDifficulty = rRoll.nDifficulty - nEffort - nEffortEffectApplied;
 
 	-- Adjust difficulty based on training
 	if bInability then

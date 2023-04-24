@@ -30,4 +30,16 @@ function update()
 		w.type.setReadOnly(bReadOnly);
 		w.amount.setReadOnly(bReadOnly);
 	end
+
+	-- Update all actions
+	if bReadOnly then
+		actions_iedit.setValue(0);
+	end
+	actions_iedit.setVisible(not bReadOnly);
+	actions_iadd.setVisible(not bReadOnly);
+
+	for _,w in ipairs(actions.getWindows()) do
+		w.name.setReadOnly(bReadOnly);
+		w.desc.setReadOnly(bReadOnly);
+	end
 end
