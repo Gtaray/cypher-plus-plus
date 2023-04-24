@@ -117,7 +117,17 @@ function modRoll(rSource, rTarget, rRoll)
 	RollManagerCPP.encodeEaseHindrance(rRoll, bEase, bHinder);
 
 	-- Adjust difficulty based on effort
-	rRoll.nDifficulty = rRoll.nDifficulty - nEffort;
+	local nEffortEffect = EffectManagerCPP.getEffectsBonusByType(rSource, { "EFFORT", "EFF" }, { sStat, "attack", "atk" }, rTarget);
+	local nMaxEffort = ActorManagerCPP.getMaxEffort(rSource, sStat, "attack");
+	local nEffortEffectApplied = math.min(nEffortEffect, nMaxEffort - nEffort); -- This calculates how much effect modified the effort applied to the roll
+
+	-- If the effort effect actually modified the amount of effort applied to this roll, state that
+	if nEffortEffectApplied > 0 then
+		bEffects = true;
+		nDiffEffects = nDiffEffects - nEffortEffectApplied;
+	end
+
+	rRoll.nDifficulty = rRoll.nDifficulty - nEffort - nEffortEffectApplied;
 
 	-- Adjust difficulty based on training
 	if bInability then
@@ -164,7 +174,7 @@ function onRoll(rSource, rTarget, rRoll)
 	local bInability, bTrained, bSpecialized = RollManagerCPP.decodeTraining(rRoll, bPersist);
 	local nAssets = RollManagerCPP.decodeAssets(rRoll, bPersist) or 0;
 	local nEffort = RollManagerCPP.decodeEffort(rRoll, true) or 0;
-	local nCost = RollManagerCPP.decodeCost(rRoll, bPersist) or 0;
+	local nCost = RollManagerCPP.decodeCost(rRoll, false) or 0; -- We don't need to display cost in the message
 	local nTotal = ActionsManager.total(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);

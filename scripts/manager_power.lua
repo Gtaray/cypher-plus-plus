@@ -212,6 +212,9 @@ function getPCPowerAction(nodeAction)
 	rAction.label = DB.getValue(nodeAction, "...name", "");
 	rAction.order = PowerManager.getPCPowerActionOutputOrder(nodeAction);
 
+	-- Resolve cost of the ability
+	local sCostType = DB.getValue(nodeAction, "costtype", "");
+
 	if rAction.type == "stat" then
 		rAction.sStat = RollManagerCPP.resolveStat(DB.getValue(nodeAction, "stat", ""));
 		rAction.sTraining = DB.getValue(nodeAction, "training", "");
@@ -271,11 +274,12 @@ function getPCPowerAction(nodeAction)
 		rAction.nDuration = DB.getValue(nodeAction, "durmod", 0);
 		rAction.sUnits = DB.getValue(nodeAction, "durunit", "");
 
-		rAction.sStat = DB.getValue(nodeAction, "coststat", ""); -- Only used if fixed cost is specified
+		if sCostType == "ability" then
+			rAction.sStat = DB.getValue(nodePower, "stat", "");
+		else
+			rAction.sStat = DB.getValue(nodeAction, "coststat", ""); -- Only used if fixed cost is specified
+		end
 	end
-
-	-- Resolve cost of the ability
-	local sCostType = DB.getValue(nodeAction, "costtype", "");
 
 	if sCostType == "ability" then
 		rAction.nCost = DB.getValue(nodePower, "statcost", 0);
@@ -417,8 +421,9 @@ function performNpcAction(draginfo, rActor, rAction)
 	elseif rAction.type == "damage" then
 		ActionDamageCPP.performRoll(draginfo, rActor, rAction);
 	elseif rAction.type == "heal" then
+		ActionHealCPP.performRoll(draginfo, rActor, rAction);
 	elseif rAction.type == "effect" then
-
+		ActionEffect.performRoll(draginfo, rActor, rAction);
 	end
 	return true;
 end
