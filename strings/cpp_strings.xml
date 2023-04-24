@@ -18,7 +18,7 @@
 	<string name="char_tooltip_unequipped">Not currently equipped</string>
 	<string name="char_label_weaponammo">Ammo</string>
 
-	<string name="power_header_description">Description</string>
+	<string name="power_header_description">DESCRIPTION</string>
 	<string name="power_menu_action_add_stat">Add Stat</string>
 	<string name="power_label_roll">Roll</string>
 	<string name="power_header_stat">Stat Roll</string>
@@ -64,7 +64,7 @@
 	<string name="power_label_costtype_ability">Use Ability's Cost</string>
 	<string name="power_label_costtype_fixed">Set Cost</string>
 
-	<string name="power_header_recharge">Recharge</string>
+	<string name="power_header_recharge">RECHARGE</string>
 	<string name="power_label_recharge_on">Recharge Period</string>
 	<string name="power_recharge_any">Any recovery action</string>
 	<string name="power_recharge_first">First recovery of the day</string>

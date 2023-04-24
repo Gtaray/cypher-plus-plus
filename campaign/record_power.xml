@@ -40,13 +40,16 @@
 			function onInit()
 				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
 				local bPc = ActorManager.isPC(nodeActor);
-
+				local bRef = DB.getName(DB.getChild(getDatabaseNode(), "....")) == "ability";
 				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
-				header_cost.setVisible(bPc);
-				costtype_label.setVisible(bPc);
-				costtype.setVisible(bPc);
-				cost_label.setVisible(bPc and bFixed);
-				cost.setVisible(bPc and bFixed);
+
+				header_cost.setVisible(bPc or bRef);
+				costtype_label.setVisible(bPc or bRef);
+				costtype.setVisible(bPc or bRef);
+				cost_label.setVisible((bPc or bRef) and bFixed);
+				cost.setVisible((bPc or bRef) and bFixed);
+				coststat_label.setVisible((bPc or bRef) and bFixed);
+				coststat.setVisible((bPc or bRef) and bFixed);
 			end
 		</script>
 
@@ -104,23 +107,6 @@
 				<static textres="power_header_cost" />
 				<center />
 			</header_column>
-			<basicnumber name="cost">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="5" />
-				</anchored>
-				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
-				<min>0</min>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="cost" />
-				<static textres="power_label_cost" />
-			</label_fieldtop>
-
-			<header_column name="header_cost">
-				<static textres="power_header_cost" />
-				<center />
-			</header_column>
 			<cycler_costtype name="costtype" />
 			<label_fieldtop name="costtype_label">
 				<anchored to="costtype" />
@@ -137,6 +123,17 @@
 			<label_fieldtop name="cost_label">
 				<anchored to="cost" />
 				<static textres="power_label_cost" />
+			</label_fieldtop>
+			<button_stat name="coststat">
+				<anchored to="costtype" width="80" height="20">
+					<top />
+					<left parent="costtype" anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="power_tooltip_coststat" />
+			</button_stat>
+			<label_fieldtop name="coststat_label">
+				<anchored to="coststat" />
+				<static textres="power_label_coststat" />
 			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
@@ -193,22 +190,25 @@
 			function onInit()
 				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
 				local bPc = ActorManager.isPC(nodeActor);
-				
-				training.setVisible(bPc);
-				training_label.setVisible(bPc);
-				asset.setVisible(bPc);
-				asset_label.setVisible(bPc);
-				level.setVisible(not bPc);
-				level_label.setVisible(not bPc);
-				modifier.setVisible(bPc);
-				modifier_label.setVisible(bPc);
-
+				local bRef = DB.getName(DB.getChild(getDatabaseNode(), "....")) == "ability";
 				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
-				header_cost.setVisible(bPc);
-				costtype_label.setVisible(bPc);
-				costtype.setVisible(bPc);
-				cost_label.setVisible(bPc and bFixed);
-				cost.setVisible(bPc and bFixed);
+				
+				training.setVisible(bPc or bRef);
+				training_label.setVisible(bPc or bRef);
+				asset.setVisible(bPc or bRef);
+				asset_label.setVisible(bPc or bRef);
+				level.setVisible(not (bPc or bRef));
+				level_label.setVisible(not (bPc or bRef));
+				modifier.setVisible(bPc or bRef);
+				modifier_label.setVisible(bPc or bRef);
+
+				header_cost.setVisible(bPc or bRef);
+				costtype_label.setVisible(bPc or bRef);
+				costtype.setVisible(bPc or bRef);
+				cost_label.setVisible((bPc or bRef) and bFixed);
+				cost.setVisible((bPc or bRef) and bFixed);
+				coststat_label.setVisible((bPc or bRef) and bFixed);
+				coststat.setVisible((bPc or bRef) and bFixed);
 			end
 		</script>
 		<sheetdata>
@@ -324,7 +324,7 @@
 				<anchored to="cost" />
 				<static textres="power_label_cost" />
 			</label_fieldtop>
-			<!-- <button_stat name="coststat">
+			<button_stat name="coststat">
 				<anchored to="costtype" width="80" height="20">
 					<top />
 					<left parent="costtype" anchor="right" relation="relative" offset="10" />
@@ -334,7 +334,7 @@
 			<label_fieldtop name="coststat_label">
 				<anchored to="coststat" />
 				<static textres="power_label_coststat" />
-			</label_fieldtop> -->
+			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 
@@ -390,18 +390,21 @@
 			function onInit()
 				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
 				local bPc = ActorManager.isPC(nodeActor);
-				
-				stat.setVisible(bPc);
-				stat_label.setVisible(bPc);
-				ambient.setVisible(not bPc);
-				ambient_label.setVisible(not bPc);
-				
+				local bRef = DB.getName(DB.getChild(getDatabaseNode(), "....")) == "ability";
 				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
-				header_cost.setVisible(bPc);
-				costtype_label.setVisible(bPc);
-				costtype.setVisible(bPc);
-				cost_label.setVisible(bPc and bFixed);
-				cost.setVisible(bPc and bFixed);
+				
+				stat.setVisible(bPc or bRef);
+				stat_label.setVisible(bPc or bRef);
+				ambient.setVisible(not (bPc or bRef));
+				ambient_label.setVisible(not (bPc or bRef));
+
+				header_cost.setVisible(bPc or bRef);
+				costtype_label.setVisible(bPc or bRef);
+				costtype.setVisible(bPc or bRef);
+				cost_label.setVisible((bPc or bRef) and bFixed);
+				cost.setVisible((bPc or bRef) and bFixed);
+				coststat_label.setVisible((bPc or bRef) and bFixed);
+				coststat.setVisible((bPc or bRef) and bFixed);
 			end
 		</script>
 		<sheetdata>
@@ -540,7 +543,7 @@
 				<anchored to="cost" />
 				<static textres="power_label_cost" />
 			</label_fieldtop>
-			<!-- <button_stat name="coststat">
+			<button_stat name="coststat">
 				<anchored to="costtype" width="80" height="20">
 					<top />
 					<left parent="costtype" anchor="right" relation="relative" offset="10" />
@@ -550,7 +553,7 @@
 			<label_fieldtop name="coststat_label">
 				<anchored to="coststat" />
 				<static textres="power_label_coststat" />
-			</label_fieldtop> -->
+			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 
@@ -604,15 +607,16 @@
 			function onInit()
 				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
 				local bPc = ActorManager.isPC(nodeActor);
-
+				local bRef = DB.getName(DB.getChild(getDatabaseNode(), "....")) == "ability";
 				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
-				header_cost.setVisible(bPc);
-				costtype_label.setVisible(bPc);
-				costtype.setVisible(bPc);
-				cost_label.setVisible(bPc and bFixed);
-				cost.setVisible(bPc and bFixed);
-				coststat_label.setVisible(bPc and bFixed);
-				coststat.setVisible(bPc and bFixed);
+
+				header_cost.setVisible(bPc or bRef);
+				costtype_label.setVisible(bPc or bRef);
+				costtype.setVisible(bPc or bRef);
+				cost_label.setVisible((bPc or bRef) and bFixed);
+				cost.setVisible((bPc or bRef) and bFixed);
+				coststat_label.setVisible((bPc or bRef) and bFixed);
+				coststat.setVisible((bPc or bRef) and bFixed);
 			end
 		</script>
 		<sheetdata>
@@ -758,15 +762,16 @@
 			function onInit()
 				local nodeActor = DB.getChild(getDatabaseNode(), ".....");
 				local bPc = ActorManager.isPC(nodeActor);
-
+				local bRef = DB.getName(DB.getChild(getDatabaseNode(), "....")) == "ability";
 				local bFixed = DB.getValue(getDatabaseNode(), "costtype", "") == "fixed";
-				header_cost.setVisible(bPc);
-				costtype_label.setVisible(bPc);
-				costtype.setVisible(bPc);
-				cost_label.setVisible(bPc and bFixed);
-				cost.setVisible(bPc and bFixed);
-				coststat_label.setVisible(bPc and bFixed);
-				coststat.setVisible(bPc and bFixed);
+
+				header_cost.setVisible(bPc or bRef);
+				costtype_label.setVisible(bPc or bRef);
+				costtype.setVisible(bPc or bRef);
+				cost_label.setVisible((bPc or bRef) and bFixed);
+				cost.setVisible((bPc or bRef) and bFixed);
+				coststat_label.setVisible((bPc or bRef) and bFixed);
+				coststat.setVisible((bPc or bRef) and bFixed);
 			end
 		</script>
 		<sheetdata>

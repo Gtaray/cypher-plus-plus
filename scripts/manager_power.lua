@@ -116,7 +116,7 @@ function getPCPowerAttackActionText(nodeAction)
 			sAttack = string.format("%s [Cost: %s]", sAttack, rAction.nCost);
 		end
 	end
-	
+
 	return sAttack;
 end
 
@@ -155,7 +155,7 @@ function getPCPowerHealActionText(nodeAction)
 	
 	local rAction, rActor = PowerManager.getPCPowerAction(nodeAction);
 	if rAction then		
-		sHeal = string.format("%s %s", rAction.nHeal, StringManager.capitalize(rAction.sStat));
+		sHeal = string.format("%s %s", rAction.nHeal, StringManager.capitalize(rAction.sStatHeal));
 
 		if DB.getValue(nodeAction, "healtargeting", "") == "self" then
 			sHeal = sHeal .. " [SELF]";
@@ -203,9 +203,10 @@ function getPCPowerAction(nodeAction)
 	local nodePower = DB.getChild(nodeAction, "...");
 	local nodeActor = PowerManagerCore.getPowerActorNode(nodePower);
 	local rActor = ActorManager.resolveActor(nodeActor);
-	if not rActor then
-		return;
-	end
+
+	-- if not rActor then
+	-- 	return;
+	-- end
 
 	local rAction = {};
 	rAction.type = DB.getValue(nodeAction, "type", "");
@@ -286,7 +287,7 @@ function getPCPowerAction(nodeAction)
 		rAction.sCostStat = DB.getValue(nodePower, "stat", "");
 	elseif sCostType == "fixed" then
 		rAction.nCost = DB.getValue(nodeAction, "cost", 0);
-		rAction.sCostStat = rAction.sStat;
+		rAction.sCostStat = DB.getValue(nodeAction, "coststat", "");
 	else
 		rAction.nCost = 0;
 	end

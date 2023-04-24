@@ -40,9 +40,28 @@
 				<class>ability_main</class>
 				<activate />
 			</subwindow_record>
+			<subwindow_record name="actions">
+				<class>ability_actions</class>
+			</subwindow_record>
+
 			<scrollbar_record>
 				<target>contents</target>
 			</scrollbar_record>
+			<scrollbar_record>
+				<target>actions</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet name="tabs">
+				<gmvisibleonly />
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>contents</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_actions</icon>
+					<subwindow>actions</subwindow>
+				</tab>
+			</tabs_recordsheet>
 			
 			<resize_recordsheet />
 			<close_recordsheet />
@@ -80,19 +99,284 @@
 			end
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				description.setReadOnly(bReadOnly);
 				type.setReadOnly(bReadOnly);
+				useequipped.setReadOnly(bReadOnly);
+				statcost.setReadOnly(bReadOnly);
+				stat.setReadOnly(bReadOnly);
+				period.setReadOnly(bReadOnly);
+				ftdesc.setReadOnly(bReadOnly);
+
+				local bHasCost = statcost.getValue() ~= 0;
+				local bHasRecharge = period.getValue() ~= "-";
+
+				header_cost.setVisible(bHasCost or not bReadOnly);
+				statcost_label.setVisible(bHasCost or not bReadOnly);
+				statcost.setVisible(bHasCost or not bReadOnly);
+				stat_label.setVisible(bHasCost or not bReadOnly);
+				stat.setVisible(bHasCost or not bReadOnly);
+
+				header_recharge.setVisible(bHasRecharge or not bReadOnly);
+				period_label.setVisible(bHasRecharge or not bReadOnly);
+				period.setVisible(bHasRecharge or not bReadOnly);
 			end
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 
+			<header_column name="header_properties">
+				<static textres="power_header_properties" />
+				<center />
+			</header_column>
 			<label_column name="type_label">
 				<static textres="ref_label_type" />
 			</label_column>
 			<string_columnh name="type" />
+			
+			<label_column name="useequipped_label">
+				<static textres="power_label_useequipped" />
+			</label_column>
+			<cycler_column name="useequipped">
+				<anchored width="60" />
+				<parameters>
+					<labelsres>yes</labelsres>
+					<values>yes</values>
+					<defaultlabelres>no</defaultlabelres>
+				</parameters>
+				<tooltip textres="power_tooltip_useequipped" />
+			</cycler_column>
 
-			<ft_columnh name="description" />
+			<header_column name="header_cost">
+				<static textres="power_header_cost" />
+				<center />
+			</header_column>
+			<basicnumber name="statcost">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="5" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+				<min>0</min>
+			</basicnumber>
+			<label_fieldtop name="statcost_label">
+				<anchored to="statcost" />
+				<static textres="power_label_cost" />
+			</label_fieldtop>
+
+			<button_stat name="stat">
+				<anchored to="statcost" width="80" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+			</button_stat>
+			<label_fieldtop name="stat_label">
+				<anchored to="stat" />
+				<static textres="power_label_stat" />
+			</label_fieldtop>
+
+			<header_column name="header_recharge">
+				<static textres="power_header_recharge" />
+				<center />
+			</header_column>
+
+			<label_column name="period_label">
+				<static textres="power_label_recharge_on" />
+			</label_column>
+			<cycler_column name="period">
+				<anchored width="200" />
+				<parameters>
+					<labelsres>power_recharge_any|power_recharge_first|power_recharge_last|power_recharge_manual</labelsres>
+					<values>any|first|last|manual</values>
+					<defaultlabelres>dash</defaultlabelres>
+				</parameters>
+			</cycler_column>			
+
+			<header_column name="header_desc">
+				<static textres="power_header_description" />
+				<center />
+			</header_column>
+			
+			<string_column_full name="description">
+				<readonly />
+				<invisible />
+			</string_column_full>
+
+			<basicft name="ftdesc">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<script>
+					function onInit()
+						local oldDesc = window.description.getValue();
+						if oldDesc == "" then
+							return;
+						end
+						
+						local aDescriptionSplit,_ = StringManager.split(oldDesc, "\n", true);
+						
+						local sFormattedString = "";
+						for _,sDescFragment in pairs(aDescriptionSplit) do
+							sFormattedString = sFormattedString .. "&lt;p&gt;" .. sDescFragment .. "&lt;/p&gt;";
+						end
+						
+						setValue(sFormattedString);
+						window.description.setValue("");
+					end
+				</script>
+				<tabtarget prev="modifier" />
+			</basicft>
+		</sheetdata>
+	</windowclass>
+
+	<!-- ACTIONS -->
+	<windowclass name="ability_actions">
+		<margins control="0,0,0,2" />
+		<script>
+		function onInit()    
+			update();
+		end
+
+		function onClose()
+		end
+
+		function updateControl(sControl, bReadOnly, bForceHide)
+			if not self[sControl] then
+				return false;
+			end
+			
+			return self[sControl].update(bReadOnly, bForceHide);
+		end
+
+		function update()
+			local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+			if bReadOnly then
+				actions_iedit.setValue(0);
+			end
+
+			actions_iedit.setVisible(not bReadOnly)
+			attack_iadd.setVisible(not bReadOnly)
+			damage_iadd.setVisible(not bReadOnly)
+			heal_iadd.setVisible(not bReadOnly)
+			effect_iadd.setVisible(not bReadOnly)
+		end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<label name="header_actions">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+				<frame name="headersimple" offset="10,3,10,3" />
+				<static textres="power_header_properties" />
+			</label>
+
+			<button_iedit name="actions_iedit">
+				<anchored position="insidetopright" offset="10,5" />
+				<target>actions</target>
+			</button_iedit>
+			<buttoncontrol name="effect_iadd">
+				<anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_action_effect" pressed="button_action_effect_down" />
+				<script>
+					function onButtonPress()
+						window.actions.addEntry("effect", true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="heal_iadd">
+				<anchored to="effect_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_action_heal" pressed="button_action_heal_down" />
+				<script>
+					function onButtonPress()
+						window.actions.addEntry("heal", true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="damage_iadd">
+				<anchored to="heal_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_action_damage" pressed="button_action_damage_down" />
+				<script>
+					function onButtonPress()
+						window.actions.addEntry("damage", true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="attack_iadd">
+				<anchored to="damage_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_action_attack" pressed="button_action_attack_down" />
+				<script>
+					function onButtonPress()
+						window.actions.addEntry("attack", true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="stat_iadd">
+				<anchored to="attack_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_roll" pressed="button_roll_down" />
+				<script>
+					function onButtonPress()
+						window.actions.addEntry("stat", true);
+					end
+				</script>
+			</buttoncontrol>
+
+			<list_poweraction name="actions">
+				<script>
+				function update()
+					local bEditMode = (window.actions_iedit.getValue() == 1);
+					
+					for _,w in ipairs(getWindows()) do
+						w.idelete.setVisibility(bEditMode);
+					end
+				end
+
+				function addEntry(sType, bFocus)
+					local nodelist = getDatabaseNode();
+					if nodelist then
+						local nodeAction = nodelist.createChild();
+						if nodeAction then
+							DB.setValue(nodeAction, "type", "string", sType);
+						end
+					end
+
+					update();
+				end
+
+				function reset()
+					for _,v in pairs(getWindows()) do
+						v.getDatabaseNode().delete();
+					end
+				end
+
+				function setOrder(node)
+					if DB.getValue(node, "order", 0) == 0 then
+						local aOrder = {};
+						for _,v in pairs(DB.getChildren(getDatabaseNode(), "")) do
+							aOrder[DB.getValue(v, "order", 0)] = true;
+						end
+						
+						local i = 1;
+						while aOrder[i] do
+							i = i + 1;
+						end
+						
+						DB.setValue(node, "order", "number", i);
+					end
+				end
+				</script>
+				<anchored>
+					<top parent="header_actions" anchor="bottom" relation="relative" offset="5" />
+					<left offset="20" />
+					<right offset="-20" />
+				</anchored>
+			</list_poweraction>
+			<scrollbar>
+				<anchored to="actions" />
+				<target>actions</target>
+			</scrollbar>
 		</sheetdata>
 	</windowclass>
 </root>

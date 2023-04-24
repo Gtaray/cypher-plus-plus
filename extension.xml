@@ -13,6 +13,7 @@
 		<includefile source="campaign/record_char_actions.xml" />
 		<includefile source="campaign/record_char_ability.xml" />
 		<includefile source="campaign/record_char_attack.xml" />
+		<includefile source="campaign/record_ability.xml" />
 		<includefile source="campaign/record_power.xml" />
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/record_item.xml" />
@@ -23,6 +24,7 @@
 		<includefile source="utility/prompt_defense.xml" />
 		<includefile source="desktop/desktop_classes.xml" />
 
+		<script name="CPP" file="scripts/cpp.lua" />
 		<script name="DamageTypeManager" file="scripts/manager_damage_types.lua" />
 		<script name="PowerManager" file="scripts/manager_power.lua" />
 		<script name="ActorManagerCPP" file="scripts/manager_actor_cpp.lua" />
