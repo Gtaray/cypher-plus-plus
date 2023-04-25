@@ -9,6 +9,7 @@
 		<loadorder>90</loadorder>
 	</properties>
 	<base>
+		<includefile source="campaign/record_char.xml" />
 		<includefile source="campaign/record_char_main.xml" />
 		<includefile source="campaign/record_char_actions.xml" />
 		<includefile source="campaign/record_char_ability.xml" />
@@ -33,6 +34,7 @@
 		<script name="PromptManager" file="scripts/manager_prompt.lua" />
 		<script name="CombatManagerCPP" file="scripts/manager_combat_cpp.lua" />
 		<script name="ItemManagerCPP" file="scripts/manager_item_cpp.lua" />
+		<script name="CharManagerCPP" file="campaign/scripts/manager_char_cpp.lua" />
 
 		<script name="ActionGeneralCPP" file="scripts/manager_action_general_cpp.lua" />
 		<script name="ActionStatCPP" file="scripts/manager_action_stat_cpp.lua" />

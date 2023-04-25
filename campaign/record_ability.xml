@@ -81,7 +81,7 @@
 		</script>
 		<sheetdata>
 			<link_record_header>
-				<class>ref_ability</class>
+				<class>reference_ability</class>
 			</link_record_header>
 
 			<anchor_record_header_right name="rightanchor" />
