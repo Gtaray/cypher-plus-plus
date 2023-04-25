@@ -17,6 +17,7 @@ Cypher++ is a grab-bag collection of features I wanted for my own game. It is de
 * When making a stat, skill, attack, or defense roll, and are targeting an NPC, the difficulty calculation is processed more closely to how it is described in the book. That is, you start with the difficulty based on the target's level, which is then modified up or down by effects, effort, assets, etc. When the roll is displayed in chat, the difficulty icon will display the actual difficulty of the roll (including all modifications). This is then compared to the d20 roll, and success/failure is reported. 
 	* When you do not target an NPC with these rolls, it operates the same as before, where the difficulty icon will display what difficulty the roll succeeds after including all of the modifications.
 	* If a PC targets a PC with an attack roll, all difficulty reductions are converted to a +3 to the roll's modifier, and then the target is prompted to roll a defense roll. All difficulty mods of the defense roll are similarly converted to +3 to the roll's modifier. Then the two numbers are compared to see who wins.
+* There is a new "Ability" type in the library. These are for PC abilities, and can be drag/dropped onto the PC sheet to add them to the PC's ability list. These abilities can have roll actions added to them, which are also added to the PC sheet.
 
 ### Effects
 
